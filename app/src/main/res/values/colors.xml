@@ -6,4 +6,5 @@
     <color name="negro">#000000</color>
     <color name="aceptar">#44DF46</color>
     <color name="denegar">#E8373D</color>
+    <color name="blanco">#ffffff</color>
 </resources>

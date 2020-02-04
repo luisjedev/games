@@ -115,6 +115,7 @@ public class AgregarProductos extends Fragment {
             fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
             añadir.setBackgroundResource(R.drawable.boton_redondo);
         }else{
+            fondo.setBackgroundResource(R.drawable.fondo_claro_fragment);
             añadir.setBackgroundResource(R.drawable.boton_dia_naranja);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }

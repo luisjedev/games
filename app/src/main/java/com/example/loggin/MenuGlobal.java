@@ -257,8 +257,10 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
         if (modo_actual==true){
             res=true;
+            fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }else{
+            fondo.setBackgroundResource(R.drawable.fondo_claro_fragment);
             res=false;
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
