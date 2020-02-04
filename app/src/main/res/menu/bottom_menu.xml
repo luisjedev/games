@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:id="@+id/productos"
+            android:title="@string/productos"
+            android:icon="@drawable/lista">
+        </item>
+
+        <item android:id="@+id/reservas"
+            android:title="@string/reservas"
+            android:icon="@drawable/reservas">
+        </item>
+
+        <item android:id="@+id/buscar"
+            android:title="@string/buscar"
+            android:icon="@drawable/buscar">
+        </item>
+
+        <item android:id="@+id/favoritos"
+            android:title="@string/favoritos"
+            android:icon="@drawable/favoritos">
+        </item>
+
+        <item android:id="@+id/tienda"
+        android:title="@string/tienda"
+        android:icon="@drawable/tienda">
+        </item>
+
+    </menu>
+
+

@@ -1,0 +1,60 @@
+<resources>
+
+    //MAIN
+    <string name="app_name">Access</string>
+    <string name="icono">icono</string>
+    <string name="nombre_app">nombre</string>
+    <string name="usuario">Usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="Entrar">Entrar</string>
+    <string name="Registrarse">Registro</string>
+    <string name="crear">¿Todavía no tienes cuenta?</string>
+
+    //REGISTRO
+    <string name="Registrame">Regístrarme</string>
+    <string name="LoginApp">LoginApp</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="direccion">Dirección</string>
+    <string name="moneda">Moneda</string>
+
+    //ELEMENTO LISTA
+    <string name="nombre">Nombre</string>
+    <string name="contraseña_usu">Pass</string>
+    <string name="email">Email</string>
+    <string name="tipo">Control</string>
+    <string name="fecha">Fecha</string>
+    <string name="foto_elemento">foto</string>
+
+    //EDITAR USUARIO
+    <string name="modificar">Modificar</string>
+    <string name="foto_usuario">foto</string>
+    <string name="noche">Modo noche</string>
+
+    //MENU GOOGLE
+    <string name="salir">Cerrar sesión</string>
+    <string name="revocar">Revocar acceso</string>
+    <string name="id_google">Id</string>
+
+    //MENU GLOBAL
+    <string name="opciones">Opciones</string>
+    <string name="Ver">Ver</string>
+    <string name="añadir">Añadir</string>
+    <string name="buscar">Buscar</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="reservas">Reservas</string>
+    <string name="menu_principal">Menú principal</string>
+    <string name="tienda">Tienda</string>
+    <string name="productos">Productos</string>
+    <string name="administracion">Administración</string>
+    <string name="volver">Volver</string>
+    <string name="clientes">Clientes</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="categoria">Categoría</string>
+    <string name="descripcion">Descripción</string>
+    <string name="precio">Precio</string>
+    <string name="disponible">Disponible</string>
+
+
+</resources>
