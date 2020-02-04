@@ -65,11 +65,11 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         if (modo_actual==true){
                             Intent intent = new Intent(getApplicationContext(), MenuGoogle.class);
                             startActivity(intent);
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);
                         }else{
                             Intent intent = new Intent(getApplicationContext(), Preferencias.class);
                             startActivity(intent);
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);
                         }
 
                         break;

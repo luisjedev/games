@@ -42,6 +42,7 @@ public class Preferencias extends AppCompatActivity {
     private DatabaseReference ref;
     private Button button,modoNoche;
     private StorageReference sto;
+
     private Spinner moneda;
     private ConstraintLayout fondo;
     private final static int SELECCIONAR_FOTO=1;
@@ -57,10 +58,13 @@ public class Preferencias extends AppCompatActivity {
         fondo = (ConstraintLayout) findViewById(R.id.fondoopciones);
         moneda = (Spinner) findViewById(R.id.moneda);
         if (comprobarNoche()){
-
             button.setBackgroundResource(R.drawable.boton_redondo);
             modoNoche.setBackgroundResource(R.drawable.boton_redondo);
             fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
+        }else {
+            fondo.setBackgroundResource(R.drawable.fondo_claro_fragment);
+            modoNoche.setBackgroundResource(R.drawable.boton_dia_naranja);
+            button.setBackgroundResource(R.drawable.boton_dia_naranja);
         }
 
         foto_url=null;
