@@ -1,6 +1,7 @@
 package com.example.loggin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.EventListener;
+
 
 public class AgregarProductos extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -44,6 +47,7 @@ public class AgregarProductos extends Fragment {
     private Button añadir;
     private Uri foto_url;
     private DatabaseReference ref;
+    private String[] lista_categorias;
     private StorageReference sto;
     private CheckBox estado_producto;
     private FrameLayout fondo;
@@ -89,10 +93,44 @@ public class AgregarProductos extends Fragment {
         precio = (EditText) v.findViewById(R.id.precio);
         estado_producto = (CheckBox) v.findViewById(R.id.estado);
         foto_prod = (ImageView) v.findViewById(R.id.foto_prod);
+        añadir = (Button) v.findViewById(R.id.button);
 
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
         foto_url = null;
+
+        añadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String[] res;
+
+                ref.child("tienda").child("categorias").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChildren()){
+
+                            for (int i=0; i<dataSnapshot.getChildrenCount();i++){
+                                System.out.println(dataSnapshot.getChildren().iterator().next().getValue());
+                                System.out.println(dataSnapshot.getChildren().iterator().next());
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+//        return res;
+
+            }
+        });
+
+
 
         return v;
     }
@@ -151,7 +189,9 @@ public class AgregarProductos extends Fragment {
         }
 
         if (valor_nombre.equals("") || valor_descripcion.equals("") || valor_precio.equals("") || valor_categoria.equals("")) {
+
             Toast.makeText(getContext(), "Completa los campos necesarios", Toast.LENGTH_LONG).show();
+
         } else {
 
             ref.child("tienda").
@@ -165,10 +205,21 @@ public class AgregarProductos extends Fragment {
                         Toast.makeText(getContext(), "El producto ya existe", Toast.LENGTH_LONG).show();
                     } else {
 
+                        if (foto_url != null) {
+
+                                Producto nuevo_cliente = new Producto();
+
+                                String clave = ref.child("tienda").child("productos").push().getKey();
+
+                                ref.child("tienda").child("productos").child(clave).setValue(nuevo_cliente);
+                                sto.child("tienda").child("productos").child("imagenes").child(clave).putFile(foto_url);
+                                Toast.makeText(getContext(), "Producto registrado con éxito", Toast.LENGTH_LONG).show();
+
+
+                        } else {
+                            Toast.makeText(getContext(), "No se ha seleccionado una imagen", Toast.LENGTH_LONG).show();
+                        }
                     }
-
-
-
                 }
 
                 @Override
@@ -176,11 +227,26 @@ public class AgregarProductos extends Fragment {
 
                 }
             });
-
-
-
-
         }
+    }
+
+    public void cargarCategorias(View view){
+        String[] res;
+
+        ref.child("tienda").child("categorias").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                final DataSnapshot hijo = dataSnapshot.getChildren().iterator().next();
+                System.out.println(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+//        return res;
     }
 
 }
