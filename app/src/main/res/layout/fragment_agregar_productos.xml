@@ -107,7 +107,7 @@
                     android:id="@+id/agregar_categoria"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="20dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/add_prod" />
 
@@ -125,9 +125,8 @@
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/categoria"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginRight="20dp"
                     android:gravity="center"
                     android:textAlignment="center"></androidx.appcompat.widget.AppCompatSpinner>
             </LinearLayout>
