@@ -46,8 +46,8 @@ public class AgregarProductos extends Fragment {
     private Spinner categoria;
     private Button añadir;
     private Uri foto_url;
-    private DatabaseReference ref;
     private String[] lista_categorias;
+    private DatabaseReference ref;
     private StorageReference sto;
     private CheckBox estado_producto;
     private FrameLayout fondo;
@@ -95,42 +95,15 @@ public class AgregarProductos extends Fragment {
         foto_prod = (ImageView) v.findViewById(R.id.foto_prod);
         añadir = (Button) v.findViewById(R.id.button);
 
+
+
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
         foto_url = null;
 
-        añadir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        cargarCategorias();
 
-                String[] res;
-
-                ref.child("tienda").child("categorias").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        if(dataSnapshot.hasChildren()){
-
-                            for (int i=0; i<dataSnapshot.getChildrenCount();i++){
-                                System.out.println(dataSnapshot.getChildren().iterator().next().getValue());
-                                System.out.println(dataSnapshot.getChildren().iterator().next());
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-//        return res;
-
-            }
-        });
-
-
+        
 
         return v;
     }
@@ -230,14 +203,29 @@ public class AgregarProductos extends Fragment {
         }
     }
 
-    public void cargarCategorias(View view){
-        String[] res;
+    public void cargarCategorias(){
 
         ref.child("tienda").child("categorias").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                final DataSnapshot hijo = dataSnapshot.getChildren().iterator().next();
-                System.out.println(dataSnapshot);
+
+                if(dataSnapshot.hasChildren()){
+
+                    int i=0;
+                    int tamaño = (int) dataSnapshot.getChildrenCount();
+                    lista_categorias = new String[tamaño];
+
+                    for(DataSnapshot hijo:dataSnapshot.getChildren()) {
+
+                        String heroe = hijo.getValue(String.class);
+                        lista_categorias[i] = heroe;
+
+                        System.out.println(heroe);
+                        System.out.println(lista_categorias[i]);
+
+                        i++;
+                    }
+                }
             }
 
             @Override
@@ -246,7 +234,7 @@ public class AgregarProductos extends Fragment {
             }
         });
 
-//        return res;
+
     }
 
 }
