@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -102,8 +103,6 @@ public class AgregarProductos extends Fragment {
         foto_url = null;
 
         cargarCategorias();
-
-        
 
         return v;
     }
@@ -219,12 +218,13 @@ public class AgregarProductos extends Fragment {
 
                         String heroe = hijo.getValue(String.class);
                         lista_categorias[i] = heroe;
-
-                        System.out.println(heroe);
-                        System.out.println(lista_categorias[i]);
-
                         i++;
+                        
                     }
+
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, lista_categorias);
+                    categoria.setAdapter(adapter);
                 }
             }
 
