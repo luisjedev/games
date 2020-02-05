@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
@@ -32,6 +33,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.EventListener;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class AgregarProductos extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -46,6 +49,7 @@ public class AgregarProductos extends Fragment {
     private EditText nombre, precio, descripcion;
     private Spinner categoria;
     private Button añadir;
+    private final static int SELECCIONAR_FOTO = 1;
     private Uri foto_url;
     private String[] lista_categorias;
     private DatabaseReference ref;
@@ -104,6 +108,72 @@ public class AgregarProductos extends Fragment {
 
         cargarCategorias();
 
+        foto_prod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, SELECCIONAR_FOTO);
+            }
+        });
+
+        añadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final String valor_nombre = nombre.getText().toString();
+                final String valor_descripcion = descripcion.getText().toString();
+                final String valor_precio = precio.getText().toString();
+                final String valor_categoria = categoria.getSelectedItem().toString();
+                final boolean valor_estado = estado_producto.isChecked();
+
+
+                if (valor_nombre.equals("") || valor_descripcion.equals("") || valor_precio.equals("") || valor_categoria.equals("")) {
+
+                    Toast.makeText(getContext(), "Completa los campos necesarios", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    ref.child("tienda").
+                            child("productos").
+                            orderByChild("nombre")
+                            .equalTo(valor_nombre)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.hasChildren()) {
+                                        Toast.makeText(getContext(), "El producto ya existe", Toast.LENGTH_LONG).show();
+                                    } else {
+
+                                        if (foto_url != null) {
+
+                                            Producto nuevo_producto = new Producto(valor_nombre,valor_categoria,valor_descripcion,valor_precio,valor_estado);
+
+                                            String clave = ref.child("tienda").child("productos").push().getKey();
+
+                                            ref.child("tienda").child("productos").child(clave).setValue(nuevo_producto);
+                                            sto.child("tienda").child("productos").child("imagenes").child(clave).putFile(foto_url);
+                                            Toast.makeText(getContext(), "Producto registrado con éxito", Toast.LENGTH_LONG).show();
+
+
+                                        } else {
+                                            Toast.makeText(getContext(), "No se ha seleccionado una imagen", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                }
+
+            }
+        });
+
+
+
         return v;
     }
 
@@ -145,63 +215,6 @@ public class AgregarProductos extends Fragment {
         }
     }
 
-    public void registrarProducto(View view) {
-
-        final String valor_nombre = nombre.getText().toString();
-        final String valor_descripcion = descripcion.getText().toString();
-        final String valor_precio = precio.getText().toString();
-        final String valor_categoria = categoria.getSelectedItem().toString();
-        final boolean valor_estado = estado_producto.isChecked();
-        final int disponible;
-
-        if (valor_estado) {
-            disponible = 1;
-        } else {
-            disponible = 0;
-        }
-
-        if (valor_nombre.equals("") || valor_descripcion.equals("") || valor_precio.equals("") || valor_categoria.equals("")) {
-
-            Toast.makeText(getContext(), "Completa los campos necesarios", Toast.LENGTH_LONG).show();
-
-        } else {
-
-            ref.child("tienda").
-                    child("productos").
-                    orderByChild("nombre")
-                    .equalTo(valor_nombre)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.hasChildren()) {
-                        Toast.makeText(getContext(), "El producto ya existe", Toast.LENGTH_LONG).show();
-                    } else {
-
-                        if (foto_url != null) {
-
-                                Producto nuevo_cliente = new Producto();
-
-                                String clave = ref.child("tienda").child("productos").push().getKey();
-
-                                ref.child("tienda").child("productos").child(clave).setValue(nuevo_cliente);
-                                sto.child("tienda").child("productos").child("imagenes").child(clave).putFile(foto_url);
-                                Toast.makeText(getContext(), "Producto registrado con éxito", Toast.LENGTH_LONG).show();
-
-
-                        } else {
-                            Toast.makeText(getContext(), "No se ha seleccionado una imagen", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-    }
-
     public void cargarCategorias(){
 
         ref.child("tienda").child("categorias").addValueEventListener(new ValueEventListener() {
@@ -219,7 +232,7 @@ public class AgregarProductos extends Fragment {
                         String heroe = hijo.getValue(String.class);
                         lista_categorias[i] = heroe;
                         i++;
-                        
+
                     }
 
 
@@ -237,4 +250,18 @@ public class AgregarProductos extends Fragment {
 
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECCIONAR_FOTO && resultCode == RESULT_OK) {
+            foto_url = data.getData();
+            foto_prod.setImageURI(foto_url);
+            Toast.makeText(getContext(), "Imagen seleccionada", Toast.LENGTH_LONG).show();
+
+        } else {
+            Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+        }
+    }
 }

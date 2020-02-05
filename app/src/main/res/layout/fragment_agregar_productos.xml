@@ -19,7 +19,8 @@
             android:layout_height="118dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/seleccionarfoto" />
+            android:background="@drawable/seleccionarfoto"
+            android:onClick="seleccionarFoto" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,6 +153,7 @@
                 android:layout_marginRight="100dp"
                 android:background="@drawable/boton_dia_naranja"
                 android:fontFamily="@font/open_sans"
+                android:onClick="registrarProducto"
                 android:text="@string/añadir"
                 android:textAllCaps="false" />
 
