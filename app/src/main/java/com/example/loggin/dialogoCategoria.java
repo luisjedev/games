@@ -13,11 +13,15 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class dialogoCategoria extends DialogFragment {
 
     private EditText categoria;
     private Button cancelar, aceptar;
     private LinearLayout fondo;
+    private DatabaseReference ref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,14 +33,25 @@ public class dialogoCategoria extends DialogFragment {
         fondo = (LinearLayout) v.findViewById(R.id.fondo);
         aceptar = (Button) v.findViewById(R.id.añadir);
 
+        ref = FirebaseDatabase.getInstance().getReference();
+
 
         comprobarNocheFragment();
-
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dismiss();
+            }
+        });
 
+
+        aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ref.child("tienda").child("categorias").push().setValue(categoria.getText().toString());
+                dismiss();
             }
         });
 
