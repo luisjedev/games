@@ -55,6 +55,8 @@
     <string name="descripcion">Descripción</string>
     <string name="precio">Precio</string>
     <string name="disponible">Disponible</string>
+    <string name="introduce">Introduce una categoría</string>
+    <string name="cancelar">Cancelar</string>
 
 
 </resources>
