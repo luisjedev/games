@@ -7,7 +7,7 @@ public class Cliente {
     private String id, email,contraseña,nombre,apellidos, direccion,favoritos;
     private Uri url_foto;
     private int moneda;
-    
+
 
     public Cliente() {
         this.id ="";
