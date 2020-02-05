@@ -50,6 +50,7 @@ public class AgregarProductos extends Fragment {
     private Spinner categoria;
     private Button añadir;
     private final static int SELECCIONAR_FOTO = 1;
+
     private Uri foto_url;
     private String[] lista_categorias;
     private DatabaseReference ref;
