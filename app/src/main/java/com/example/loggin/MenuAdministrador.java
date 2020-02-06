@@ -130,7 +130,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         if (posicionAnimacion<3){
 
                             posicionAnimacion = 3;
-                            FragmentProductos frag = new FragmentProductos();
+                            EditarMapa frag = new EditarMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -142,7 +142,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         }else if (posicionAnimacion>3){
 
                             posicionAnimacion = 3;
-                            FragmentProductos frag = new FragmentProductos();
+                            EditarMapa frag = new EditarMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()

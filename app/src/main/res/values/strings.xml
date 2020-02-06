@@ -57,6 +57,7 @@
     <string name="disponible">Disponible</string>
     <string name="introduce">Introduce una categoría</string>
     <string name="cancelar">Cancelar</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>
