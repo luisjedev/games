@@ -1,1 +1,1 @@
-Dia 6 de febrero
+6 de febrero
