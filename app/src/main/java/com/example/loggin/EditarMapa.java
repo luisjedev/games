@@ -22,10 +22,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -49,8 +51,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class EditarMapa extends Fragment implements OnMapReadyCallback,
-        GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnCircleClickListener  {
+        GoogleMap.OnMyLocationButtonClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -66,6 +67,8 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
 
     private String mParam1;
     private String mParam2;
+
+    private EditText latitud,longitud,nombre,direccion,email,telefono;
 
     private OnFragmentInteractionListener mListener;
 
@@ -100,6 +103,13 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         fondo = (ScrollView) v.findViewById(R.id.fondo);
         modificar = (Button) v.findViewById(R.id.modificar_tienda);
 
+        nombre = (EditText) v.findViewById(R.id.nombre);
+        latitud = (EditText) v.findViewById(R.id.latitud);
+        longitud = (EditText) v.findViewById(R.id.longitud);
+        email = (EditText) v.findViewById(R.id.email);
+        telefono = (EditText) v.findViewById(R.id.telefono);
+        direccion = (EditText) v.findViewById(R.id.direccion);
+
 
         //Todo 1. Conectamos el MapView
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -112,6 +122,39 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
 
 
         comprobarNocheFragment();
+
+
+        modificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final String valor_nombre=nombre.getText().toString();
+                final String valor_direccion=direccion.getText().toString();
+                final String valor_email=email.getText().toString();
+                final String valor_telefono=telefono.getText().toString();
+                final String valor_latitud = latitud.getText().toString();
+                final String valor_longitud = latitud.getText().toString();
+
+
+
+                if (valor_email.equals("") || valor_direccion.equals("") || valor_nombre.equals("") || valor_telefono.equals("")
+                        || valor_latitud.equals("") || valor_longitud.equals("")) {
+                    Toast.makeText(getContext(), "Completa los campos necesarios", Toast.LENGTH_LONG).show();
+                } else {
+
+                    
+
+
+
+
+                }
+
+
+            }
+        });
+
+
+
 
         return v;
     }
@@ -162,17 +205,14 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         // todo -> Este proceso es asíncrono por lo que no se puede suponer su llamada.
         mGoogleMap = googleMap;
 
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(37.1881714, -3.6066699))
-                .title("Marker"));
+                .title("Pxxr Gvmes"));
 
         applyMapStyle();
-
         applyUiSettings();
-
-        drawCircle();
-
+        controlCamera(new LatLng(37.1881714,-3.6066699));
     }
 
     @Override
@@ -210,7 +250,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
     public boolean applyMapStyle() {
 
         //Todo -> Los ajustes de estilo solo funciona en el tipo de mapa Normal
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         MapStyleOptions styleOptions = new MapStyleOptions(getResources()
                 .getString(R.string.map_style_json));
@@ -281,7 +321,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         mGoogleMap.setBuildingsEnabled(true);
 
         //Todo -> Podemos cambiar los valores de la camara accediendo a diferentes detalles
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(17); // + valor + cerca
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15); // + valor + cerca
 
         //ejemplo new LatLng(36.5297800,-6.2946500)
         CameraUpdate newLoc = CameraUpdateFactory.newLatLng(latLng);
@@ -298,31 +338,5 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         mGoogleMap.animateCamera(zoom,5000, null);
 
     }
-
-    //Todo Personalización 5. Se puede dibujar figuras geometricas como lineas o circulos
-    public void drawCircle(){
-
-        //Todo -> Se dibuja un circulo con un punto central y un radio
-        CircleOptions circleOptions = new CircleOptions()
-                .center(new LatLng(37.1881714,-3.6066699))
-                .radius(1000)   // In meters
-                .strokeColor(Color.GREEN);
-
-        Circle circle = mGoogleMap.addCircle(circleOptions);
-
-        //Todo -> Podemos habilitar clicks en los circulos
-        circle.setClickable(true);
-
-        mGoogleMap.setOnCircleClickListener(this);
-
-
-    }
-
-
-    @Override
-    public void onCircleClick(Circle circle) {
-        Toast.makeText(getContext(), "Click en circulo", Toast.LENGTH_SHORT).show();
-    }
-
 
 }
