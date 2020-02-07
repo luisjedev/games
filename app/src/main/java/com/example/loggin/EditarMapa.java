@@ -331,7 +331,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         mGoogleMap.setBuildingsEnabled(true);
 
         //Todo -> Podemos cambiar los valores de la camara accediendo a diferentes detalles
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15); // + valor + cerca
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(16); // + valor + cerca
 
         //ejemplo new LatLng(36.5297800,-6.2946500)
         CameraUpdate newLoc = CameraUpdateFactory.newLatLng(latLng);
