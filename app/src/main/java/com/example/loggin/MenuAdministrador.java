@@ -15,6 +15,11 @@ import android.widget.FrameLayout;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MenuAdministrador extends AppCompatActivity implements OnFragmentInteractionListener {
 
@@ -24,10 +29,13 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
     private int posicionAnimacion;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu__administrador);
+
+
 
         fondo = (ConstraintLayout) findViewById(R.id.fondo);
         fragments = (FrameLayout) findViewById(R.id.fragments_admin);
@@ -163,19 +171,11 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         break;
 
                     default:
-
                 }
-
-
                 return true;
             }
         });
-
-
-
-
     }
-
 
     public boolean comprobarNoche(){
 
@@ -191,15 +191,16 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
             res=false;
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
         return res;
     }
 
     @Override
     public void onFragmentMessage(String TAG, Object data) {
         if (TAG.equals("opcion")){
-//            nameRe=data.toString();
 
         }
     }
+
+
+
 }

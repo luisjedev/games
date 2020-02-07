@@ -24,9 +24,13 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.EventListener;
 
 
 public class EditarMapa extends Fragment implements OnMapReadyCallback,
@@ -42,6 +46,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
     GoogleMap mGoogleMap;
     private ScrollView fondo;
     private Button modificar;
+    private Double latitud_valor,longitud_valor;
     private DatabaseReference ref;
 
 
@@ -92,6 +97,8 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
 
         ref = FirebaseDatabase.getInstance().getReference();
 
+        verDatosTienda();
+
 
         //Todo 1. Conectamos el MapView
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -117,8 +124,6 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
                 final String valor_latitud = latitud.getText().toString();
                 final String valor_longitud = longitud.getText().toString();
 
-
-
                 if (valor_email.equals("") || valor_direccion.equals("") || valor_nombre.equals("") || valor_telefono.equals("")
                         || valor_latitud.equals("") || valor_longitud.equals("")) {
                     Toast.makeText(getContext(), "Completa los campos necesarios", Toast.LENGTH_LONG).show();
@@ -128,6 +133,8 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
                     ,Double.parseDouble(valor_longitud));
 
                     ref.child("tienda").child("datos").setValue(tienda);
+
+                    guardarTienda(valor_latitud,valor_longitud);
 
                     Toast.makeText(getContext(), "Datos de la tienda modificados", Toast.LENGTH_SHORT).show();
 
@@ -185,14 +192,18 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         // todo -> Este proceso es asíncrono por lo que no se puede suponer su llamada.
         mGoogleMap = googleMap;
 
+        SharedPreferences credenciales = getActivity().getSharedPreferences("tienda", Context.MODE_PRIVATE);
+        String latitud = credenciales.getString("latitud","");
+        String longitud = credenciales.getString("longitud","");
+
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(37.1881714, -3.6066699))
+                .position(new LatLng(Double.parseDouble(latitud),Double.parseDouble(longitud)))
                 .title("Pxxr Gvmes"));
 
         applyMapStyle();
         applyUiSettings();
-        controlCamera(new LatLng(37.1881714,-3.6066699));
+        controlCamera(new LatLng(Double.parseDouble(latitud),Double.parseDouble(longitud)));
     }
 
     @Override
@@ -287,9 +298,13 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
     @Override
     public boolean onMyLocationButtonClick() {
 
+        SharedPreferences credenciales = getActivity().getSharedPreferences("tienda", Context.MODE_PRIVATE);
+        String latitud = credenciales.getString("latitud","");
+        String longitud = credenciales.getString("longitud","");
+
         Toast.makeText(getContext(), "Llendo a la tienda", Toast.LENGTH_SHORT).show();
 
-        controlCamera(new LatLng(37.1881714,-3.6066699));
+        controlCamera(new LatLng(Double.parseDouble(latitud),Double.parseDouble(longitud)));
 
         return true;
     }
@@ -316,6 +331,43 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         //Todo -> ó con animación, en el tercer parametro se puede implementar la interfaz CancellableCallback
         // todo -> donde saber cuando termina la animacion
         mGoogleMap.animateCamera(zoom,3000, null);
+
+    }
+
+    public void verDatosTienda(){
+
+        ref.child("tienda").child("datos").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Tienda tienda = dataSnapshot.getValue(Tienda.class);
+
+                nombre.setText(tienda.getNombre());
+                telefono.setText(tienda.getTelefono());
+                direccion.setText(tienda.getDireccion());
+                latitud.setText(""+tienda.getLatitud());
+                longitud.setText(""+tienda.getLongitud());
+                email.setText(tienda.getCorreo());
+
+                latitud_valor=tienda.getLatitud();
+                longitud_valor=tienda.getLongitud();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void guardarTienda(String latitud_valor, String longitud_valor){
+
+                SharedPreferences credenciales = getActivity().getSharedPreferences("tienda", Context.MODE_PRIVATE);
+                SharedPreferences.Editor obj_editor = credenciales.edit();
+
+                obj_editor.putString("latitud",""+latitud_valor);
+                obj_editor.putString("longitud",""+longitud_valor);
+                obj_editor.commit();
 
     }
 
