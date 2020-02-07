@@ -211,7 +211,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         if (posicionAnimacion<4){
 
                             posicionAnimacion = 4;
-                            FragmentProductos frag = new FragmentProductos();
+                            EditarMapa frag = new EditarMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()

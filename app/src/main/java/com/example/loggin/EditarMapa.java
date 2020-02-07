@@ -82,8 +82,13 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View v=inflater.inflate(R.layout.activity_maps, container, false);
+
+        SharedPreferences credenciales = getActivity().getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+        Boolean admin= credenciales.getBoolean("admin",false);
+
+
+
 
         fondo = (ScrollView) v.findViewById(R.id.fondo);
         modificar = (Button) v.findViewById(R.id.modificar_tienda);
@@ -98,6 +103,16 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         ref = FirebaseDatabase.getInstance().getReference();
 
         verDatosTienda();
+
+        if (!admin){
+            latitud.setVisibility(View.GONE);
+            longitud.setVisibility(View.GONE);
+            nombre.setFocusable(false);
+            email.setFocusable(false);
+            telefono.setFocusable(false);
+            direccion.setFocusable(false);
+            modificar.setVisibility(View.GONE);
+        }
 
 
         //Todo 1. Conectamos el MapView
