@@ -337,7 +337,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         CameraUpdate newLoc = CameraUpdateFactory.newLatLng(latLng);
 
         //Todo -> Se puede cambiar el zoom
-        //mGoogleMap.moveCamera(zoom);
+        mGoogleMap.moveCamera(zoom);
 
         //Todo -> Se puede cambiar la posicion de la camara
         mGoogleMap.moveCamera(newLoc);
