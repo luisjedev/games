@@ -2,52 +2,31 @@ package com.example.loggin;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 
 public class EditarMapa extends Fragment implements OnMapReadyCallback,
@@ -63,6 +42,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
     GoogleMap mGoogleMap;
     private ScrollView fondo;
     private Button modificar;
+    private DatabaseReference ref;
 
 
     private String mParam1;
@@ -110,6 +90,8 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         telefono = (EditText) v.findViewById(R.id.telefono);
         direccion = (EditText) v.findViewById(R.id.direccion);
 
+        ref = FirebaseDatabase.getInstance().getReference();
+
 
         //Todo 1. Conectamos el MapView
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -133,7 +115,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
                 final String valor_email=email.getText().toString();
                 final String valor_telefono=telefono.getText().toString();
                 final String valor_latitud = latitud.getText().toString();
-                final String valor_longitud = latitud.getText().toString();
+                final String valor_longitud = longitud.getText().toString();
 
 
 
@@ -142,18 +124,16 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
                     Toast.makeText(getContext(), "Completa los campos necesarios", Toast.LENGTH_LONG).show();
                 } else {
 
-                    
+                    Tienda tienda = new Tienda(valor_nombre,valor_direccion,valor_telefono,valor_email,Double.parseDouble(valor_latitud)
+                    ,Double.parseDouble(valor_longitud));
 
+                    ref.child("tienda").child("datos").setValue(tienda);
 
-
+                    Toast.makeText(getContext(), "Datos de la tienda modificados", Toast.LENGTH_SHORT).show();
 
                 }
-
-
             }
         });
-
-
 
 
         return v;
@@ -307,7 +287,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
     @Override
     public boolean onMyLocationButtonClick() {
 
-        Toast.makeText(getContext(), "Aqui deberiamos acceder al GPS...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Llendo a la tienda", Toast.LENGTH_SHORT).show();
 
         controlCamera(new LatLng(37.1881714,-3.6066699));
 
@@ -335,7 +315,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
 
         //Todo -> ó con animación, en el tercer parametro se puede implementar la interfaz CancellableCallback
         // todo -> donde saber cuando termina la animacion
-        mGoogleMap.animateCamera(zoom,5000, null);
+        mGoogleMap.animateCamera(zoom,3000, null);
 
     }
 

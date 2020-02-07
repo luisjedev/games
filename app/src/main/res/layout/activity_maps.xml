@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/latitud"
-                android:inputType="numberDecimal" />
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/longitud"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/longitud"
-                android:inputType="numberDecimal" />
+                android:inputType="text" />
         </LinearLayout>
 
 
@@ -61,14 +61,14 @@
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/descripcion"
+            android:id="@+id/direccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
-            android:hint="@string/descripcion"
+            android:hint="@string/direccion"
             android:inputType="textPersonName" />
 
         <LinearLayout
