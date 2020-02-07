@@ -59,6 +59,9 @@
     <string name="cancelar">Cancelar</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key">AIzaSyB6I2Tb7C0jfOaaqM7Cj3B8_MnyebeH4o4</string>
+    <string name="latitud">Latitud</string>
+    <string name="longitud">Longitud</string>
+    <string name="telefono" >Teléfono</string>
 
 
 </resources>

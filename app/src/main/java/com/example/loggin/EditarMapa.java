@@ -14,6 +14,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -57,6 +60,8 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
 
     MapView mMapView;
     GoogleMap mGoogleMap;
+    private ScrollView fondo;
+    private Button modificar;
 
 
     private String mParam1;
@@ -92,6 +97,9 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
 
         View v=inflater.inflate(R.layout.activity_maps, container, false);
 
+        fondo = (ScrollView) v.findViewById(R.id.fondo);
+        modificar = (Button) v.findViewById(R.id.modificar_tienda);
+
 
         //Todo 1. Conectamos el MapView
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -103,6 +111,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         mMapView.getMapAsync(this);
 
 
+        comprobarNocheFragment();
 
         return v;
     }
@@ -136,9 +145,13 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         Boolean modo_actual= modonoche.getBoolean("noche",false);
         if (modo_actual==true){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
+            fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
+            modificar.setBackgroundResource(R.drawable.boton_redondo);
         }else{
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            fondo.setBackgroundResource(R.drawable.fondo_claro_fragment);
+            modificar.setBackgroundResource(R.drawable.boton_dia_naranja);
+
         }
     }
 
