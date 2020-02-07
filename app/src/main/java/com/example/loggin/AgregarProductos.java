@@ -1,6 +1,8 @@
 package com.example.loggin;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -19,7 +21,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.EventListener;
+import java.util.zip.Inflater;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -46,6 +52,7 @@ public class AgregarProductos extends Fragment {
     private String mParam1;
     private String mParam2;
     private ImageView foto_prod;
+    private ImageButton agregarCategoria;
     private EditText nombre, precio, descripcion;
     private Spinner categoria;
     private Button añadir;
@@ -83,10 +90,10 @@ public class AgregarProductos extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_agregar_productos, container, false);
+        final View v = inflater.inflate(R.layout.fragment_agregar_productos, container, false);
 
         fondo = (FrameLayout) v.findViewById(R.id.fondofrag);
         añadir = (Button) v.findViewById(R.id.button);
@@ -100,6 +107,9 @@ public class AgregarProductos extends Fragment {
         estado_producto = (CheckBox) v.findViewById(R.id.estado);
         foto_prod = (ImageView) v.findViewById(R.id.foto_prod);
         añadir = (Button) v.findViewById(R.id.button);
+        agregarCategoria = (ImageButton) v.findViewById(R.id.agregar_categoria);
+
+
 
 
 
@@ -108,6 +118,14 @@ public class AgregarProductos extends Fragment {
         foto_url = null;
 
         cargarCategorias();
+
+        agregarCategoria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new dialogoCategoria().show(getFragmentManager(),"añadir");
+            }
+        });
 
         foto_prod.setOnClickListener(new View.OnClickListener() {
             @Override

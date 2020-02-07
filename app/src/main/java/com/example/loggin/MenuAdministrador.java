@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.viewpager.widget.ViewPager;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.TableLayout;
+
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MenuAdministrador extends AppCompatActivity implements OnFragmentInteractionListener {
 
@@ -24,10 +29,13 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
     private int posicionAnimacion;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu__administrador);
+
+
 
         fondo = (ConstraintLayout) findViewById(R.id.fondo);
         fragments = (FrameLayout) findViewById(R.id.fragments_admin);
@@ -130,7 +138,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         if (posicionAnimacion<3){
 
                             posicionAnimacion = 3;
-                            FragmentProductos frag = new FragmentProductos();
+                            EditarMapa frag = new EditarMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -142,7 +150,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         }else if (posicionAnimacion>3){
 
                             posicionAnimacion = 3;
-                            FragmentProductos frag = new FragmentProductos();
+                            EditarMapa frag = new EditarMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -163,19 +171,11 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         break;
 
                     default:
-
                 }
-
-
                 return true;
             }
         });
-
-
-
-
     }
-
 
     public boolean comprobarNoche(){
 
@@ -191,15 +191,16 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
             res=false;
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
         return res;
     }
 
     @Override
     public void onFragmentMessage(String TAG, Object data) {
         if (TAG.equals("opcion")){
-//            nameRe=data.toString();
 
         }
     }
+
+
+
 }

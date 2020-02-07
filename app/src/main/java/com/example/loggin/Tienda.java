@@ -5,13 +5,16 @@ public class Tienda {
     private String nombre,direccion,telefono,correo;
     private double latitud,longitud;
 
-    public Tienda(String nombre, String direccion, String telefono, String correo) {
+    public Tienda(String nombre, String direccion, String telefono, String correo,Double latitud, Double longitud) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
         this.correo = correo;
-        this.latitud = 0;
-        this.longitud = 0;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
+    public Tienda() {
     }
 
     public String getNombre() {

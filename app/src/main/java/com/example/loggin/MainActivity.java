@@ -158,13 +158,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String resultado= dataSnapshot.getValue(String.class);
-                    System.out.println(resultado);
+
                     if (resultado.equals(valor_contraseña)){
-                        System.out.println("SOY ADMIN");
                         obj_editor.putBoolean("admin",true);
                         obj_editor.commit();
                         Intent i = new Intent(MainActivity.this,MenuGlobal.class);
                         startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        Toast.makeText(getApplicationContext(), "Bienvenido señor", Toast.LENGTH_LONG).show();
+
 
                     }else{
 

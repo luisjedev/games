@@ -8,6 +8,7 @@ public class Cliente {
     private Uri url_foto;
     private int moneda;
 
+
     public Cliente() {
         this.id ="";
         this.email = "";
