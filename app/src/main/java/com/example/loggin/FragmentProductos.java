@@ -86,7 +86,9 @@ public class FragmentProductos extends Fragment {
                 for(DataSnapshot hijo:dataSnapshot.getChildren()) {
                     final Producto producto = hijo.getValue(Producto.class);
                     producto.setId(hijo.getKey());
-                    items.add(producto);
+                    if (producto.isDisponible()){
+                        items.add(producto);
+                    }
                 }
 
                 for(final Producto producto:items){

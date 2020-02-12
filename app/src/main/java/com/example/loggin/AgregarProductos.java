@@ -139,7 +139,6 @@ public class AgregarProductos extends Fragment {
                 final String valor_categoria = categoria.getSelectedItem().toString();
                 final boolean valor_estado = estado_producto.isChecked();
 
-
                 if (valor_nombre.equals("") || valor_descripcion.equals("") || valor_precio.equals("") || valor_categoria.equals("")) {
 
                     Toast.makeText(getContext(), "Completa los campos necesarios", Toast.LENGTH_LONG).show();
