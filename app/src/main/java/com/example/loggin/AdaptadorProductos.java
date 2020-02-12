@@ -1,6 +1,7 @@
 package com.example.loggin;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +25,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre,categoria,precio,descripcion;
         public ImageView foto_producto,disponible;
+        public ConstraintLayout fondo;
 
 //        public Button button;
 
@@ -31,6 +35,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
             categoria = (TextView)itemView.findViewById(R.id.categoria);
             precio = (TextView)itemView.findViewById(R.id.precio);
             descripcion = (TextView)itemView.findViewById(R.id.descripcion);
+            fondo = (ConstraintLayout) itemView.findViewById(R.id.fondo_item);
 
             foto_producto = (ImageView)itemView.findViewById(R.id.foto_producto);
             disponible = (ImageView) itemView.findViewById(R.id.disponible);
@@ -64,11 +69,22 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         final Producto producto = this.productos.get(position);
         //Enlazamos los elementos de la vista con el modelo
 
+        SharedPreferences modonoche = context.getSharedPreferences("noche", Context.MODE_PRIVATE);
+        Boolean modo_actual= modonoche.getBoolean("noche",false);
+
+        if (modo_actual==true){
+
+            viewHolder.fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            viewHolder.fondo.setBackgroundResource(R.drawable.fondo_claro_fragment);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         viewHolder.nombre.setText(producto.getNombre());
         viewHolder.categoria.setText(producto.getCategoria());
         viewHolder.descripcion.setText(producto.getDescripcion());
         viewHolder.precio.setText(producto.getPrecio());
-
 
         Glide.with(context).load(producto.getFoto_url()).into(viewHolder.foto_producto);
 
@@ -83,7 +99,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 //                notifyItemRangeChanged(0, productos.size());
 //            }
 //        });
-
 
     }
 
