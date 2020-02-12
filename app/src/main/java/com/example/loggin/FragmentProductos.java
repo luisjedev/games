@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +32,14 @@ public class FragmentProductos extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private StorageReference sto;
     private DatabaseReference ref;
+    private ArrayList<Producto> items;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private FrameLayout fondo;
-    private AdaptadorProductos adaptador;
+    private RecyclerView lista_productos;
+    private AdaptadorProductos adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,23 +72,24 @@ public class FragmentProductos extends Fragment {
         View v = inflater.inflate(R.layout.fragment_fragment_productos, container, false);
 
         fondo=(FrameLayout) v.findViewById(R.id.fondofrag);
-        RecyclerView lista_productos = (RecyclerView) v.findViewById(R.id.lista_productos);
-        final ArrayList<Producto> productos = new ArrayList<>();
+        lista_productos = (RecyclerView) v.findViewById(R.id.lista_productos);
+        items=new ArrayList<>();
 
         ref= FirebaseDatabase.getInstance().getReference();
         sto= FirebaseStorage.getInstance().getReference();
 
+
         ref.child("tienda").child("productos").orderByChild("nombre").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                productos.clear();
+                items.clear();
                 for(DataSnapshot hijo:dataSnapshot.getChildren()) {
                     final Producto producto = hijo.getValue(Producto.class);
                     producto.setId(hijo.getKey());
-                    productos.add(producto);
+                    items.add(producto);
                 }
 
-                for(final Producto producto:productos){
+                for(final Producto producto:items){
                     sto.child("tienda")
                             .child("productos")
                             .child("imagenes")
@@ -95,21 +99,21 @@ public class FragmentProductos extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     producto.setFoto_url(uri);
-                                    adaptador.notifyDataSetChanged();
+                                    adapter.notifyDataSetChanged();
                                 }
                             });
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
-        AdaptadorProductos adapter =  new AdaptadorProductos(productos);
+        adapter=new AdaptadorProductos(items);
         lista_productos.setAdapter(adapter);
+
+        lista_productos.setLayoutManager(new LinearLayoutManager(getContext()));
 
         comprobarNocheFragment();
         return v;

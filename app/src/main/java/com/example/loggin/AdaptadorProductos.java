@@ -11,13 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.ViewHolder> {
 
+    public Context context;
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre,categoria,precio,descripcion;
         public ImageView foto_producto,disponible;
+
 //        public Button button;
 
         public ViewHolder(final View itemView) {
@@ -43,7 +48,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         //Especificamos el fichero XML que se utilizará como vista
         View contactView = inflater.inflate(R.layout.elemento_lista, parent, false);
@@ -59,13 +64,13 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         final Producto producto = this.productos.get(position);
         //Enlazamos los elementos de la vista con el modelo
 
-
-
-
         viewHolder.nombre.setText(producto.getNombre());
         viewHolder.categoria.setText(producto.getCategoria());
         viewHolder.descripcion.setText(producto.getDescripcion());
         viewHolder.precio.setText(producto.getPrecio());
+
+
+        Glide.with(context).load(producto.getFoto_url()).into(viewHolder.foto_producto);
 
 //        String nombre = user.getNombre();
 //        String letra = nombre.substring(0,1);
