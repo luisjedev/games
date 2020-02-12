@@ -56,15 +56,19 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     public void onBindViewHolder(final AdaptadorProductos.ViewHolder viewHolder, final int position) {
 
         //Vamos obteniendo mail por mail
-        final Producto user = this.productos.get(position);
+        final Producto producto = this.productos.get(position);
         //Enlazamos los elementos de la vista con el modelo
 
 
 
 
-        viewHolder.nombre.setText(user.getNombre());
-        String nombre = user.getNombre();
-        String letra = nombre.substring(0,1);
+        viewHolder.nombre.setText(producto.getNombre());
+        viewHolder.categoria.setText(producto.getCategoria());
+        viewHolder.descripcion.setText(producto.getDescripcion());
+        viewHolder.precio.setText(producto.getPrecio());
+
+//        String nombre = user.getNombre();
+//        String letra = nombre.substring(0,1);
 
 //        viewHolder.button.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -80,7 +84,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 
     @Override
     public int getItemCount() {
-        return this.cosas.size();
+        return this.productos.size();
     }
 
 }

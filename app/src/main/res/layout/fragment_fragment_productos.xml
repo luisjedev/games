@@ -7,12 +7,8 @@
     android:background="@color/common_google_signin_btn_text_dark_default"
     tools:context=".FragmentProductos">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lista_productos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="illo que dise" />
-
+        android:layout_height="match_parent" />
 </FrameLayout>
