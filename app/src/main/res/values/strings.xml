@@ -62,6 +62,7 @@
     <string name="latitud">Latitud</string>
     <string name="longitud">Longitud</string>
     <string name="telefono" >Teléfono</string>
+    <string name="borrar">borrar</string>
 
 
 </resources>

@@ -1,8 +1,6 @@
 package com.example.loggin;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -23,8 +21,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,9 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.EventListener;
-import java.util.zip.Inflater;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -105,7 +98,7 @@ public class AgregarProductos extends Fragment {
         descripcion = (EditText) v.findViewById(R.id.descripcion);
         precio = (EditText) v.findViewById(R.id.precio);
         estado_producto = (CheckBox) v.findViewById(R.id.estado);
-        foto_prod = (ImageView) v.findViewById(R.id.foto_prod);
+        foto_prod = (ImageView) v.findViewById(R.id.disponible);
         añadir = (Button) v.findViewById(R.id.button);
         agregarCategoria = (ImageButton) v.findViewById(R.id.agregar_categoria);
 
