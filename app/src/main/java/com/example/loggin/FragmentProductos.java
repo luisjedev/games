@@ -122,7 +122,7 @@ public class FragmentProductos extends Fragment {
         int smallPadding = 16;
         lista_productos.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
 
-        comprobarNocheFragment();
+       comprobarNocheFragment();
         return v;
     }
 
@@ -157,7 +157,7 @@ public class FragmentProductos extends Fragment {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
         }else{
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
         }
     }
 

@@ -4,7 +4,9 @@
     android:id="@+id/fondo_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@android:color/white"
+    android:background="@drawable/boton_dia_dialogo"
+    app:cardBackgroundColor="@color/blanco"
+    android:backgroundTint="@color/blanco"
     app:cardElevation="5dp"
     app:cardPreventCornerOverlap="true"><![CDATA[
 
@@ -25,7 +27,6 @@
             android:id="@+id/foto_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:contentDescription="@string/foto_elemento"
             app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
 
@@ -38,6 +39,7 @@
             <TextView
                 android:id="@+id/nombre_prod"
                 android:layout_width="match_parent"
+                android:textColor="@color/negro"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="4dp"
@@ -81,6 +83,7 @@
                         android:id="@+id/precio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/negro"
                         android:layout_gravity="start"
                         android:text="Precio"
                         android:textAlignment="center"
@@ -102,6 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="6dp"
+                    android:textColor="@color/negro"
                     android:text="Disponible:"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -124,12 +128,13 @@
 
         <TextView
             android:id="@+id/descripcion"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="descripcion"
+            android:textColor="@color/negro"
             android:textAlignment="center"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
