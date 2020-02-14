@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre,categoria,precio,descripcion;
         public ImageView foto_producto,disponible;
-        public ConstraintLayout fondo;
+        public CardView fondo;
 
 //        public Button button;
 
@@ -35,7 +37,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
             categoria = (TextView)itemView.findViewById(R.id.categoria);
             precio = (TextView)itemView.findViewById(R.id.precio);
             descripcion = (TextView)itemView.findViewById(R.id.descripcion);
-            fondo = (ConstraintLayout) itemView.findViewById(R.id.fondo_item);
+            fondo = (CardView) itemView.findViewById(R.id.fondo_item);
 
             foto_producto = (ImageView)itemView.findViewById(R.id.foto_producto);
             disponible = (ImageView) itemView.findViewById(R.id.disponible);

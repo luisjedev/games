@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -113,9 +114,13 @@ public class FragmentProductos extends Fragment {
         });
 
         adapter=new AdaptadorProductos(items);
-        lista_productos.setAdapter(adapter);
 
-        lista_productos.setLayoutManager(new LinearLayoutManager(getContext()));
+        lista_productos.setHasFixedSize(true);
+        lista_productos.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+        lista_productos.setAdapter(adapter);
+        int largePadding = 16;
+        int smallPadding = 16;
+        lista_productos.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
 
         comprobarNocheFragment();
         return v;
