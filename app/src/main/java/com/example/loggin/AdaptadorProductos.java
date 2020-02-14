@@ -86,7 +86,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         viewHolder.nombre.setText(producto.getNombre());
         viewHolder.categoria.setText(producto.getCategoria());
         viewHolder.descripcion.setText(producto.getDescripcion());
-        viewHolder.precio.setText(producto.getPrecio());
+        viewHolder.precio.setText(producto.getPrecio()+" €");
 
         Glide.with(context).load(producto.getFoto_url()).into(viewHolder.foto_producto);
 
