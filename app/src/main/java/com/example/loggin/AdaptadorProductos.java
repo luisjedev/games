@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         public TextView nombre,categoria,precio,descripcion;
         public ImageView foto_producto,disponible;
         public CardView fondo;
+        public Button boton;
 
 //        public Button button;
 
@@ -41,6 +43,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 
             foto_producto = (ImageView)itemView.findViewById(R.id.foto_producto);
             disponible = (ImageView) itemView.findViewById(R.id.disponible);
+            boton = (Button) itemView.findViewById(R.id.reservar);
 //            button = (Button)itemView.findViewById(R.id.button);
         }
     }

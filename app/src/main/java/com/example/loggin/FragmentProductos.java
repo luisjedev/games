@@ -116,7 +116,7 @@ public class FragmentProductos extends Fragment {
         adapter=new AdaptadorProductos(items);
 
         lista_productos.setHasFixedSize(true);
-        lista_productos.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+        lista_productos.setLayoutManager(new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false));
         lista_productos.setAdapter(adapter);
         int largePadding = 16;
         int smallPadding = 16;
@@ -157,7 +157,9 @@ public class FragmentProductos extends Fragment {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
         }else{
-            fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            fondo.setBackgroundResource(R.drawable.fondo_claro_fragment);
+
         }
     }
 

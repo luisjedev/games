@@ -32,97 +32,98 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/nombre_prod"
-                android:layout_width="match_parent"
-                android:textColor="@color/negro"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/nombre"
-                android:textAlignment="textStart"
-                app:layout_constraintStart_toEndOf="@+id/foto_producto"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nombre_prod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/nombre"
+                    android:textAlignment="center"
+                    android:textColor="@color/negro"
+                    app:layout_constraintStart_toEndOf="@+id/foto_producto"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/categoria"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="fill"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="6dp"
+                        android:gravity="center"
                         android:text="Categoria"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@+id/foto_producto"
                         app:layout_constraintTop_toBottomOf="@+id/nombre_prod" />
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:gravity="center"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/precio"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/negro"
-                        android:layout_gravity="start"
-                        android:text="Precio"
-                        android:textAlignment="center"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <Button
+                        android:id="@+id/reservar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/boton_dia_dialogo"
+                        android:fontFamily="@font/opensansregular"
+                        android:gravity="center"
+                        android:text="@string/reservar"
+                        android:textColor="@color/design_default_color_on_secondary"
+                        android:textSize="10sp" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/fondo_oscuro_fragment"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="6dp"
-                    android:textColor="@color/negro"
-                    android:text="Disponible:"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/foto_producto"
-                    app:layout_constraintTop_toBottomOf="@+id/foto_producto" />
-
-                <ImageView
-                    android:id="@+id/disponible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView7"
-                    app:layout_constraintTop_toBottomOf="@+id/foto_producto"
-                    app:srcCompat="@drawable/disponible" />
+                    android:id="@+id/precio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|start"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Precio"
+                    android:textAlignment="center"
+                    android:textColor="@color/blanco"
+                    android:textSize="15sp" />
 
             </LinearLayout>
+
 
         </LinearLayout>
 
@@ -135,6 +136,8 @@
             android:textAlignment="center"
             android:textSize="12sp"
             android:visibility="gone" />
+
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
