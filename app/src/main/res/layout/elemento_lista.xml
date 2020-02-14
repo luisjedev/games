@@ -94,11 +94,11 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/boton_dia_dialogo"
+                        android:background="@drawable/boton_noche_dialogo"
                         android:fontFamily="@font/opensansregular"
                         android:gravity="center"
                         android:text="@string/reservar"
-                        android:textColor="@color/design_default_color_on_secondary"
+                        android:textColor="@color/blanco"
                         android:textSize="10sp" />
 
                 </LinearLayout>
@@ -122,7 +122,8 @@
                     android:text="Precio"
                     android:textAlignment="center"
                     android:textColor="@color/blanco"
-                    android:textSize="15sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
