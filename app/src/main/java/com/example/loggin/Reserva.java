@@ -13,7 +13,7 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(String nombre_producto, String nombre_cliente, String id_producto, String id_cliente, String fechao) {
+    public Reserva(String nombre_producto, String nombre_cliente, String id_producto, String id_cliente, String fecha) {
         this.id = "";
         this.nombre_producto = nombre_producto;
         this.nombre_cliente = nombre_cliente;

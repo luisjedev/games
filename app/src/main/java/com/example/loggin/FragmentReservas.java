@@ -92,6 +92,7 @@ public class FragmentReservas extends Fragment {
                 for(DataSnapshot hijo:dataSnapshot.getChildren()) {
                     final Reserva reserva = hijo.getValue(Reserva.class);
                     reserva.setId(hijo.getKey());
+                    System.out.println(reserva.getFecha());
                     items.add(reserva);
 
                 }

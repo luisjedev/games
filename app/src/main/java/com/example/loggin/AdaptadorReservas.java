@@ -37,7 +37,7 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         private TextView nombre,fecha,estado;
         private ImageView foto;
         private ImageButton borrar;
-        private LinearLayout fondo_estado;
+        private LinearLayout fondo_estado,fondo_cancelar;
         private CardView fondo;
 
 
@@ -47,7 +47,7 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
             super(itemView);
 
 
-
+            fondo_cancelar = (LinearLayout) itemView.findViewById(R.id.fondocancelar);
             fondo_estado = (LinearLayout) itemView.findViewById(R.id.fondo_estado);
             fondo = (CardView) itemView.findViewById(R.id.fondo_reserva);
             nombre = (TextView) itemView.findViewById(R.id.nombre_reserva);
@@ -107,10 +107,12 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
                 break;
             case 1:
                 estado_pedido="Preparado";
+                viewHolder.fondo_cancelar.setVisibility(View.GONE);
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.preparado);
                 break;
             case 2:
                 estado_pedido="Enviado";
+                viewHolder.fondo_cancelar.setVisibility(View.GONE);
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.enviado);
                 break;
             default:

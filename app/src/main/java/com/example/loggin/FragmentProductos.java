@@ -81,7 +81,6 @@ public class FragmentProductos extends Fragment {
         ref= FirebaseDatabase.getInstance().getReference();
         sto= FirebaseStorage.getInstance().getReference();
 
-
         ref.child("tienda").child("productos").orderByChild("nombre").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
