@@ -2,6 +2,7 @@ package com.example.loggin;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
     public Context context;
     private DatabaseReference ref;
     private StorageReference sto;
-
+    private Handler mWaitHandler = new Handler();
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView nombre,fecha,estado;
@@ -45,6 +46,8 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         public ViewHolder(final View itemView) {
             super(itemView);
 
+
+
             fondo_estado = (LinearLayout) itemView.findViewById(R.id.fondo_estado);
             fondo = (CardView) itemView.findViewById(R.id.fondo_reserva);
             nombre = (TextView) itemView.findViewById(R.id.nombre_reserva);
@@ -53,9 +56,6 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
             foto = (ImageView) itemView.findViewById(R.id.foto_reserva);
 
             borrar = (ImageButton) itemView.findViewById(R.id.borrar_reserva);
-
-
-
 
         }
     }
@@ -66,7 +66,6 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         this.reservas = reservas;
     }
 
-
     @NonNull
     @Override
     public AdaptadorReservas.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -76,7 +75,6 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         View contactView = inflater.inflate(R.layout.elemento_lista_reservas, parent, false);
         AdaptadorReservas.ViewHolder viewHolder = new AdaptadorReservas.ViewHolder(contactView);
         return viewHolder;
-
     }
 
     @Override
@@ -124,32 +122,30 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
 
         Glide.with(context).load(reserva.getFoto_url()).into(viewHolder.foto);
 
-
-
         viewHolder.borrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (reserva.getEstado()>0){
                     Toast.makeText(context, "Es demasiado tarde para cancelar la reserva", Toast.LENGTH_SHORT).show();
                 }else{
-                    ref.child("tienda").child("reservas").child(reserva.getId()).removeValue();
-                    Toast.makeText(context, "Reserva cancelada", Toast.LENGTH_SHORT).show();
+                    reservas.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(0, reservas.size());
+
+                    mWaitHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                ref.child("tienda").child("reservas").child(reserva.getId()).removeValue();
+                                Toast.makeText(context, "Reserva cancelada", Toast.LENGTH_SHORT).show();
+                            } catch (Exception ignored) {
+                                ignored.printStackTrace();
+                            }
+                        }
+                    }, 1000);  // Give a 5 seconds delay.
                 }
             }
         });
-
-
-//        String nombre = user.getNombre();
-//        String letra = nombre.substring(0,1);
-
-//        viewHolder.button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                productos.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(0, productos.size());
-//            }
-//        });
 
     }
 

@@ -93,7 +93,6 @@ public class FragmentProductos extends Fragment {
                         items.add(producto);
                     }
                 }
-
                 for(final Producto producto:items){
                     sto.child("tienda")
                             .child("productos")
