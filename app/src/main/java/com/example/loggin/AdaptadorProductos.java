@@ -31,7 +31,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         public CardView fondo;
         public Button boton;
 
-//        public Button button;
+
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -44,7 +44,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
             foto_producto = (ImageView)itemView.findViewById(R.id.foto_producto);
             disponible = (ImageView) itemView.findViewById(R.id.disponible);
             boton = (Button) itemView.findViewById(R.id.reservar);
-//            button = (Button)itemView.findViewById(R.id.button);
         }
     }
 
@@ -78,7 +77,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         Boolean modo_actual= modonoche.getBoolean("noche",false);
 
         if (modo_actual==true){
-
             viewHolder.fondo.setBackgroundResource(R.drawable.fondo_oscuro_fragment);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }else{
