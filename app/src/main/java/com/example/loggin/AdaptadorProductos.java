@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,12 +19,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.ViewHolder> {
 
     public Context context;
+    private DatabaseReference ref;
+    private StorageReference sto;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre,categoria,precio,descripcion;
@@ -69,6 +81,13 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     @Override
     public void onBindViewHolder(final AdaptadorProductos.ViewHolder viewHolder, final int position) {
 
+        ref = FirebaseDatabase.getInstance().getReference();
+        sto = FirebaseStorage.getInstance().getReference();
+
+        SharedPreferences credenciales = context.getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+        final String dueño_actual = credenciales.getString("id_usuario","");
+        final String nombre_cliente = credenciales.getString("nombre_usuario","");
+
         //Vamos obteniendo mail por mail
         final Producto producto = this.productos.get(position);
         //Enlazamos los elementos de la vista con el modelo
@@ -91,6 +110,38 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 
         Glide.with(context).load(producto.getFoto_url()).into(viewHolder.foto_producto);
 
+        viewHolder.boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ref.child("tienda").
+                        child("reservas").
+                        orderByChild("nombre_producto")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Calendar calendar = Calendar.getInstance();
+
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                                    String fecha_creacion = sdf.format(calendar.getTime());
+
+                                        Reserva nueva_reserva = new Reserva(producto.getNombre(),nombre_cliente,producto.getId(),dueño_actual,fecha_creacion);
+                                        String clave = ref.child("tienda").child("reservas").push().getKey();
+
+                                        ref.child("tienda").child("reservas").child(clave).setValue(nueva_reserva);
+                                        Toast.makeText(context, "Reserva registrada con éxito", Toast.LENGTH_LONG).show();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+            }
+        });
+    }
+
+
 //        String nombre = user.getNombre();
 //        String letra = nombre.substring(0,1);
 
@@ -103,7 +154,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 //            }
 //        });
 
-    }
+
 
     @Override
     public int getItemCount() {

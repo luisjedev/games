@@ -105,7 +105,6 @@ public class AgregarProductos extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -130,10 +129,6 @@ public class AgregarProductos extends Fragment {
         añadir = (Button) v.findViewById(R.id.button);
         tomarfoto = (Button) v.findViewById(R.id.tomarfoto);
         agregarCategoria = (ImageButton) v.findViewById(R.id.agregar_categoria);
-
-
-
-
 
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
@@ -219,7 +214,6 @@ public class AgregarProductos extends Fragment {
                                         if (foto_url != null) {
 
                                             Producto nuevo_producto = new Producto(valor_nombre,valor_categoria,valor_descripcion,valor_precio,valor_estado);
-
                                             String clave = ref.child("tienda").child("productos").push().getKey();
 
                                             ref.child("tienda").child("productos").child(clave).setValue(nuevo_producto);

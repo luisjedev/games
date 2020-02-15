@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fondo_reserva"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/boton_dia_dialogo"
+    app:cardBackgroundColor="@color/blanco"
+    android:backgroundTint="@color/blanco"
+    app:cardElevation="8dp"
+    app:cardPreventCornerOverlap="true"><![CDATA[
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/common_google_signin_btn_icon_dark_normal_background">
+
+
+
+    ]]>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/foto_reserva"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/foto_elemento"
+            app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nombre_reserva"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="6dp"
+                    android:text="@string/nombre"
+                    android:textAlignment="center"
+                    android:textColor="@color/negro"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toEndOf="@+id/foto_producto"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/fecha_reserva"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+                        android:gravity="center"
+                        android:text="Categoria"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="8sp"
+                        app:layout_constraintStart_toEndOf="@+id/foto_producto"
+                        app:layout_constraintTop_toBottomOf="@+id/nombre_prod" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fondo_estado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/estado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/opensansregular"
+                        android:gravity="center"
+                        android:text="@string/reservar"
+                        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/borrar_reserva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/pngocean"
+                    android:foregroundGravity="center" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/descripcion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="descripcion"
+            android:textColor="@color/negro"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
