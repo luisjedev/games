@@ -179,6 +179,28 @@ public class FragmentEditarProducto extends Fragment {
             }
         });
 
+
+
+        //CARGAR AQUI
+        ref.child("tienda").child("productos").child(mParam1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Producto producto = dataSnapshot.getValue(Producto.class);
+
+                nombre.setText(producto.getNombre());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        
+
+
         modificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -230,24 +252,6 @@ public class FragmentEditarProducto extends Fragment {
                 }
             }
         });
-
-
-
-        //CARGAR AQUI
-        ref.child("tienda").child("productos").child(mParam1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Producto producto = dataSnapshot.getValue(Producto.class);
-
-                nombre.setText(producto.getNombre());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
 
 
 
