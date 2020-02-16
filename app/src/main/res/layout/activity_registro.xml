@@ -5,7 +5,7 @@
     android:id="@+id/fondoRegistro"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registro">
+    tools:context=".Principales.Registro">
 
     <ImageView
         android:id="@+id/foto_usuario"

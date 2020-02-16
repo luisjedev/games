@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Principales;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.loggin.Objetos.Cliente;
+import com.example.loggin.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -171,7 +173,7 @@ public class Preferencias extends AppCompatActivity {
                                                     public void run() {
 
                                                         try {
-                                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                            Intent intent = new Intent(getApplicationContext(), Login.class);
                                                             startActivity(intent);
                                                         } catch (Exception ignored) {
                                                             ignored.printStackTrace();
@@ -211,7 +213,7 @@ public class Preferencias extends AppCompatActivity {
                                             public void run() {
 
                                                 try {
-                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                    Intent intent = new Intent(getApplicationContext(), Login.class);
                                                     startActivity(intent);
                                                 } catch (Exception ignored) {
                                                     ignored.printStackTrace();

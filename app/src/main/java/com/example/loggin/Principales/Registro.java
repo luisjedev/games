@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Principales;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +15,12 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.loggin.Objetos.Cliente;
+import com.example.loggin.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,8 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.regex.Pattern;
 
 public class Registro extends AppCompatActivity {
@@ -136,7 +135,7 @@ public class Registro extends AppCompatActivity {
                                         sto.child("tienda").child("clientes").child("imagenes").child(clave).putFile(foto_url);
                                         Toast.makeText(Registro.this, "Cliente registrado con éxito", Toast.LENGTH_LONG).show();
 
-                                        Intent i = new Intent(Registro.this, MainActivity.class);
+                                        Intent i = new Intent(Registro.this, Login.class);
                                         startActivity(i);
 
                                     }else{

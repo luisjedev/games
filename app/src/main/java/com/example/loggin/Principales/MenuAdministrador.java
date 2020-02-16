@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Principales;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +15,15 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 
+import com.example.loggin.Fragments.FragmentAgregarProductos;
+import com.example.loggin.Fragments.FragmentMapa;
+import com.example.loggin.Fragments.FragmentProductos;
+import com.example.loggin.Fragments.FragmentReservas;
+import com.example.loggin.Fragments.FragmentUsuarios;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class MenuAdministrador extends AppCompatActivity implements OnFragmentInteractionListener {
 
@@ -52,7 +54,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
 
 
         posicionAnimacion = 0;
-        AgregarProductos frag = new AgregarProductos();
+        FragmentAgregarProductos frag = new FragmentAgregarProductos();
         frag.setArguments(getIntent().getExtras());
         getSupportFragmentManager()
                 .beginTransaction()
@@ -83,7 +85,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         break;
 
                     case R.id.salir:
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent i = new Intent(getApplicationContext(), Login.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
@@ -110,7 +112,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         if (posicionAnimacion!=0) {
 
                             posicionAnimacion = 0;
-                            AgregarProductos frag = new AgregarProductos();
+                            FragmentAgregarProductos frag = new FragmentAgregarProductos();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -181,7 +183,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         if (posicionAnimacion<3){
 
                             posicionAnimacion = 3;
-                            EditarMapa frag = new EditarMapa();
+                            FragmentMapa frag = new FragmentMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -193,7 +195,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         }else if (posicionAnimacion>3){
 
                             posicionAnimacion = 3;
-                            EditarMapa frag = new EditarMapa();
+                            FragmentMapa frag = new FragmentMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()

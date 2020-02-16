@@ -5,7 +5,7 @@
     android:id="@+id/fondoopciones"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Preferencias">
+    tools:context=".Principales.Preferencias">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"

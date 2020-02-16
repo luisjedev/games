@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Principales;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.loggin.Fragments.FragmentMapa;
+import com.example.loggin.Fragments.FragmentProductos;
+import com.example.loggin.Fragments.FragmentReservas;
+import com.example.loggin.Objetos.Tienda;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MenuGlobal extends AppCompatActivity implements OnFragmentInteractionListener{
+public class MenuGlobal extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private BottomNavigationView menuBottom;
     private MaterialToolbar topbar;
@@ -85,7 +91,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         break;
 
                     case R.id.salir:
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent i = new Intent(getApplicationContext(), Login.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
@@ -211,7 +217,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         if (posicionAnimacion<4){
 
                             posicionAnimacion = 4;
-                            EditarMapa frag = new EditarMapa();
+                            FragmentMapa frag = new FragmentMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()

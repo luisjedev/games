@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Fragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
+
+import com.example.loggin.Objetos.Tienda;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,10 +34,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.EventListener;
 
-
-public class EditarMapa extends Fragment implements OnMapReadyCallback,
+public class FragmentMapa extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener {
 
     private static final String ARG_PARAM1 = "param1";
@@ -57,12 +59,12 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
 
     private OnFragmentInteractionListener mListener;
 
-    public EditarMapa() {
+    public FragmentMapa() {
 
     }
 
-    public static EditarMapa newInstance(String param1, String param2) {
-        EditarMapa fragment = new EditarMapa();
+    public static FragmentMapa newInstance(String param1, String param2) {
+        FragmentMapa fragment = new FragmentMapa();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -87,9 +89,6 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         SharedPreferences credenciales = getActivity().getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         Boolean admin= credenciales.getBoolean("admin",false);
 
-
-
-
         fondo = (ScrollView) v.findViewById(R.id.fondo);
         modificar = (Button) v.findViewById(R.id.modificar_tienda);
 
@@ -101,7 +100,6 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         direccion = (EditText) v.findViewById(R.id.direccion);
 
         ref = FirebaseDatabase.getInstance().getReference();
-
         verDatosTienda();
 
         if (!admin){
@@ -114,7 +112,6 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
             modificar.setVisibility(View.GONE);
         }
 
-
         //Todo 1. Conectamos el MapView
         mMapView = (MapView) v.findViewById(R.id.mapView);
 
@@ -124,9 +121,7 @@ public class EditarMapa extends Fragment implements OnMapReadyCallback,
         //Todo 3.  Implementamos la interfaz 'OnMapReadyCallback' y la asignamos a la vista
         mMapView.getMapAsync(this);
 
-
         comprobarNocheFragment();
-
 
         modificar.setOnClickListener(new View.OnClickListener() {
             @Override

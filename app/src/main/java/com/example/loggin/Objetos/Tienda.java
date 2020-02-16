@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Objetos;
 
 public class Tienda {
 

@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Fragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -33,6 +33,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.loggin.Fragments.FragmentProductos;
+import com.example.loggin.Objetos.Producto;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.R;
+import com.example.loggin.dialogoCategoria;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +54,7 @@ import java.util.Date;
 import static android.app.Activity.RESULT_OK;
 
 
-public class AgregarProductos extends Fragment {
+public class FragmentAgregarProductos extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -68,7 +73,6 @@ public class AgregarProductos extends Fragment {
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private final static int SELECCIONAR_FOTO = 1;
-
     private Uri foto_url;
     private String[] lista_categorias;
     private DatabaseReference ref;
@@ -78,7 +82,7 @@ public class AgregarProductos extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public AgregarProductos() {
+    public FragmentAgregarProductos() {
         // Required empty public constructor
     }
 
@@ -108,7 +112,6 @@ public class AgregarProductos extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_agregar_productos, container, false);
 
         fondo = (FrameLayout) v.findViewById(R.id.fondofrag);

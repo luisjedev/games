@@ -1,7 +1,8 @@
-package com.example.loggin;
+package com.example.loggin.Adaptadores;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
+import com.example.loggin.Fragments.FragmentEditarProducto;
+import com.example.loggin.Objetos.Producto;
+import com.example.loggin.R;
+import com.example.loggin.Objetos.Reserva;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +40,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     private DatabaseReference ref;
     private StorageReference sto;
 
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre,categoria,precio,descripcion;
         public ImageView foto_producto,disponible;
@@ -45,6 +49,8 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 
         public ViewHolder(final View itemView) {
             super(itemView);
+
+
             nombre = (TextView)itemView.findViewById(R.id.nombre_prod);
             categoria = (TextView)itemView.findViewById(R.id.categoria);
             precio = (TextView)itemView.findViewById(R.id.precio);
@@ -80,6 +86,8 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
 
+//       final AppCompatActivity activity=(AppCompatActivity)viewHolder.itemView.getContext();
+
         SharedPreferences credenciales = context.getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         final String dueño_actual = credenciales.getString("id_usuario","");
         final String nombre_cliente = credenciales.getString("nombre_usuario","");
@@ -105,6 +113,30 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         viewHolder.precio.setText(producto.getPrecio()+" €");
 
         Glide.with(context).load(producto.getFoto_url()).into(viewHolder.foto_producto);
+
+
+        viewHolder.foto_producto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentEditarProducto frag = new FragmentEditarProducto();
+
+                //ARREGLAR
+//              frag.newInstance(producto.getId(),"id");
+
+                Bundle args = new Bundle();
+                args.putString("param1",producto.getId());
+                frag.setArguments(args);
+                AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                        .replace(R.id.fragments_admin, frag)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
 
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,19 +165,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
             }
         });
     }
-
-
-//        String nombre = user.getNombre();
-//        String letra = nombre.substring(0,1);
-
-//        viewHolder.button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                productos.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(0, productos.size());
-//            }
-//        });
 
     @Override
     public int getItemCount() {

@@ -26,12 +26,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".MenuAdministrador" />
-        <activity android:name=".MenuGlobal" />
-        <activity android:name=".MenuGoogle" />
-        <activity android:name=".Preferencias" />
-        <activity android:name=".Registro" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Principales.MenuAdministrador" />
+        <activity android:name=".Principales.MenuGlobal" />
+        <activity android:name=".Principales.MenuGoogle" />
+        <activity android:name=".Principales.Preferencias" />
+        <activity android:name=".Principales.Registro" />
+        <activity android:name=".Principales.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

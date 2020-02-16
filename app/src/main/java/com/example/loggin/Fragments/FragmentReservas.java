@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,6 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.example.loggin.Adaptadores.AdaptadorReservas;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.ProductGridItemDecoration;
+import com.example.loggin.R;
+import com.example.loggin.Objetos.Reserva;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

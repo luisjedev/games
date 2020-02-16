@@ -5,7 +5,7 @@
     android:id="@+id/fondofrag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.FragmentAgregarProductos">
+    tools:context=".Fragments.FragmentEditarProducto">
 
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/disponible"
+            android:id="@+id/foto_editar"
             android:layout_width="118dp"
             android:layout_height="118dp"
             android:layout_gravity="center"
@@ -46,7 +46,7 @@
                 android:hint="@string/nombre">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nombre_prod"
+                    android:id="@+id/nombre_editar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -67,7 +67,7 @@
                 android:hint="@string/descripcion">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/descripcion"
+                    android:id="@+id/descripcion_editar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -89,7 +89,7 @@
                 android:hint="@string/precio">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/precio"
+                    android:id="@+id/precio_editar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -112,14 +112,6 @@
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/agregar_categoria"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/add_prod" />
-
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -132,7 +124,7 @@
                 </com.google.android.material.textview.MaterialTextView>
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/categoria"
+                    android:id="@+id/categoria_editar"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -142,7 +134,7 @@
 
 
             <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/estado"
+                android:id="@+id/disponible_editar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -152,7 +144,7 @@
             </com.google.android.material.checkbox.MaterialCheckBox>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/modificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
@@ -160,10 +152,8 @@
                 android:layout_marginRight="100dp"
                 android:background="@drawable/boton_dia_naranja"
                 android:fontFamily="@font/open_sans"
-                android:text="@string/añadir"
+                android:text="@string/modificar"
                 android:textAllCaps="false" />
-
         </LinearLayout>
-
     </LinearLayout>
 </FrameLayout>

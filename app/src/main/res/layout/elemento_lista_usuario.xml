@@ -36,7 +36,8 @@
                 android:id="@+id/email_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/email" />
+                android:text="@string/email"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +49,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/nombre" />
+                    android:text="@string/nombre"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
             </LinearLayout>
 
@@ -57,13 +59,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:text="@string/contraseña" />
+                android:text="@string/contraseña"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
             <TextView
                 android:id="@+id/moneda_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/moneda" />
+                android:text="@string/moneda"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
         </LinearLayout>
 
         <ImageButton

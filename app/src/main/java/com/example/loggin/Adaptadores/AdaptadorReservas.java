@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Adaptadores;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +18,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.loggin.Fragments.FragmentAgregarProductos;
+import com.example.loggin.R;
+import com.example.loggin.Objetos.Reserva;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
