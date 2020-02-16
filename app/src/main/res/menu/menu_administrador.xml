@@ -3,7 +3,7 @@
 
 
 
-    <item android:id="@+id/productos"
+    <item android:id="@+id/agregar"
         android:title="@string/añadir"
         android:icon="@drawable/add">
     </item>
@@ -13,9 +13,9 @@
         android:icon="@drawable/reservas">
     </item>
 
-    <item android:id="@+id/clientes"
-        android:title="@string/clientes"
-        android:icon="@drawable/usuarios">
+    <item android:id="@+id/productos"
+        android:title="@string/productos"
+        android:icon="@drawable/lista">
     </item>
 
     <item android:id="@+id/tienda"
@@ -23,9 +23,9 @@
         android:icon="@drawable/tienda">
     </item>
 
-    <item android:id="@+id/volver"
-        android:title="@string/volver"
-        android:icon="@drawable/volver">
+    <item android:id="@+id/usuarios"
+        android:title="@string/usuarios"
+        android:icon="@drawable/usuarios">
     </item>
 
 </menu>

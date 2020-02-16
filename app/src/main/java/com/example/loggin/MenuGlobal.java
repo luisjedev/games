@@ -90,7 +90,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
 
-                    case R.id.administracion:
+                    case R.id.configuracion:
                         Intent intent = new Intent(getApplicationContext(), MenuAdministrador.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);

@@ -162,11 +162,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     if (resultado.equals(valor_contraseña)){
                         obj_editor.putBoolean("admin",true);
                         obj_editor.commit();
-                        Intent i = new Intent(MainActivity.this,MenuGlobal.class);
+                        Intent i = new Intent(MainActivity.this,MenuAdministrador.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         Toast.makeText(getApplicationContext(), "Bienvenido señor", Toast.LENGTH_LONG).show();
-
 
                     }else{
 

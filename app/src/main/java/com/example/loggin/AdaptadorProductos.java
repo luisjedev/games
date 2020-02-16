@@ -125,12 +125,9 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 
                                         ref.child("tienda").child("reservas").child(clave).setValue(nueva_reserva);
                                         Toast.makeText(context, "Reserva registrada con éxito", Toast.LENGTH_LONG).show();
-
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
                             }
                         });
             }
@@ -149,8 +146,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 //                notifyItemRangeChanged(0, productos.size());
 //            }
 //        });
-
-
 
     @Override
     public int getItemCount() {

@@ -66,6 +66,8 @@
     <string name="titulo">titulo</string>
     <string name="reservar">Reservar</string>
     <string name="gvmes">GVMES</string>
+    <string name="configuracion">Configuración</string>
+    <string name="usuarios">Usuarios</string>
 
 
 </resources>

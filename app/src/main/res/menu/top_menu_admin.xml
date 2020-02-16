@@ -5,9 +5,11 @@
         android:id="@+id/salir"
         android:title="@string/salir">
     </item>
+
+
     <item
-        android:id="@+id/administracion"
-        android:title="@string/administracion"
+        android:id="@+id/configuracion"
+        android:title="@string/configuracion"
         android:visible="true">
     </item>
 
