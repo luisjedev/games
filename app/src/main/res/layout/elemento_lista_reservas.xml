@@ -100,8 +100,8 @@
                         android:fontFamily="@font/opensansregular"
                         android:gravity="center"
                         android:text="@string/reservar"
-                        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                        android:textSize="10sp" />
+                        android:textColor="@color/blanco"
+                        android:textSize="9sp" />
 
                 </LinearLayout>
 

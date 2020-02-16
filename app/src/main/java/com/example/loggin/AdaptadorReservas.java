@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,12 +39,8 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         private LinearLayout fondo_estado,fondo_cancelar;
         private CardView fondo;
 
-
-
-
         public ViewHolder(final View itemView) {
             super(itemView);
-
 
             fondo_cancelar = (LinearLayout) itemView.findViewById(R.id.fondocancelar);
             fondo_estado = (LinearLayout) itemView.findViewById(R.id.fondo_estado);
@@ -99,14 +94,15 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         }
 
         String estado_pedido="";
+
         switch (reserva.getEstado()){
 
             case 0:
-                estado_pedido="Recibido";
+                estado_pedido="Pedido recibido";
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.recibido);
                 break;
             case 1:
-                estado_pedido="Preparado";
+                estado_pedido="Preparado para el envío";
                 viewHolder.fondo_cancelar.setVisibility(View.GONE);
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.preparado);
                 break;
@@ -115,7 +111,6 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
                 viewHolder.fondo_cancelar.setVisibility(View.GONE);
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.enviado);
                 break;
-            default:
         }
 
         viewHolder.nombre.setText(reserva.getNombre_producto());
@@ -148,7 +143,6 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
                 }
             }
         });
-
     }
 
     @Override

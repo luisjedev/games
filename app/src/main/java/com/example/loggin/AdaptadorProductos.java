@@ -43,8 +43,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         public CardView fondo;
         public Button boton;
 
-
-
         public ViewHolder(final View itemView) {
             super(itemView);
             nombre = (TextView)itemView.findViewById(R.id.nombre_prod);
@@ -65,7 +63,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         this.productos = productos;
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -75,7 +72,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         View contactView = inflater.inflate(R.layout.elemento_lista, parent, false);
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
-
     }
 
     @Override

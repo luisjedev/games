@@ -77,7 +77,7 @@ public class FragmentReservas extends Fragment {
 
         SharedPreferences credenciales = getActivity().getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         final String dueño_actual = credenciales.getString("id_usuario","");
-
+        final Boolean admin= credenciales.getBoolean("admin",false);
         fondo=(FrameLayout) v.findViewById(R.id.fondofrag);
         lista_reservas = (RecyclerView) v.findViewById(R.id.lista_reservas);
         items=new ArrayList<>();
@@ -85,37 +85,70 @@ public class FragmentReservas extends Fragment {
         ref= FirebaseDatabase.getInstance().getReference();
         sto= FirebaseStorage.getInstance().getReference();
 
-        ref.child("tienda").child("reservas").orderByChild("id_cliente").equalTo(dueño_actual).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                items.clear();
-                for(DataSnapshot hijo:dataSnapshot.getChildren()) {
-                    final Reserva reserva = hijo.getValue(Reserva.class);
-                    reserva.setId(hijo.getKey());
-                    System.out.println(reserva.getFecha());
-                    items.add(reserva);
+
+        if (admin){
+            ref.child("tienda").child("reservas").orderByChild("nombre_producto").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    items.clear();
+                    for(DataSnapshot hijo:dataSnapshot.getChildren()) {
+                        final Reserva reserva = hijo.getValue(Reserva.class);
+                        reserva.setId(hijo.getKey());
+                        items.add(reserva);
+
+                    }
+                    for(final Reserva reserva:items){
+                        sto.child("tienda")
+                                .child("productos")
+                                .child("imagenes")
+                                .child(reserva.getId_producto())
+                                .getDownloadUrl()
+                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        reserva.setFoto_url(uri);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-                for(final Reserva reserva:items){
-                    sto.child("tienda")
-                            .child("productos")
-                            .child("imagenes")
-                            .child(reserva.getId_producto())
-                            .getDownloadUrl()
-                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    reserva.setFoto_url(uri);
-                                    adapter.notifyDataSetChanged();
-                                }
-                            });
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            });
+        }else{
 
-            }
-        });
+            ref.child("tienda").child("reservas").orderByChild("id_cliente").equalTo(dueño_actual).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    items.clear();
+                    for(DataSnapshot hijo:dataSnapshot.getChildren()) {
+                        final Reserva reserva = hijo.getValue(Reserva.class);
+                        reserva.setId(hijo.getKey());
+                        items.add(reserva);
+                    }
+                    for(final Reserva reserva:items){
+                        sto.child("tienda")
+                                .child("productos")
+                                .child("imagenes")
+                                .child(reserva.getId_producto())
+                                .getDownloadUrl()
+                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        reserva.setFoto_url(uri);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
 
         adapter=new AdaptadorReservas(items);
 
