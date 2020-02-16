@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fondo_item"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fondo_reserva"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/boton_dia_dialogo"
@@ -24,7 +25,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/foto_producto"
+            android:id="@+id/foto_reserva"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/foto_elemento"
@@ -40,11 +41,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="0.5"
+                android:layout_weight="0.3"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/nombre_prod"
+                    android:id="@+id/nombre_reserva"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
@@ -65,11 +66,12 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/categoria"
+                        android:id="@+id/fecha_reserva"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
                         android:gravity="center"
                         android:text="Categoria"
                         android:textColor="@android:color/darker_gray"
@@ -80,12 +82,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/fondo_estado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/reservar"
+                    <TextView
+                        android:id="@+id/estado"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -94,37 +97,32 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/boton_dia_dialogo"
                         android:fontFamily="@font/opensansregular"
                         android:gravity="center"
                         android:text="@string/reservar"
-                        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                        android:textSize="10sp" />
+                        android:textColor="@color/blanco"
+                        android:textSize="9sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fondocancelar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorAccent"
+                android:background="@color/design_default_color_error"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/precio"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center|start"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Precio"
-                    android:textAlignment="center"
-                    android:textColor="@color/blanco"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-
+                <ImageButton
+                    android:id="@+id/borrar_reserva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/pngocean"
+                    android:foregroundGravity="center" />
             </LinearLayout>
 
 

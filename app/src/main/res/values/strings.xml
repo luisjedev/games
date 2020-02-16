@@ -61,7 +61,13 @@
     <string name="google_maps_key">AIzaSyB6I2Tb7C0jfOaaqM7Cj3B8_MnyebeH4o4</string>
     <string name="latitud">Latitud</string>
     <string name="longitud">Longitud</string>
-    <string name="telefono" >Teléfono</string>
+    <string name="telefono">Teléfono</string>
+    <string name="borrar">borrar</string>
+    <string name="titulo">titulo</string>
+    <string name="reservar">Reservar</string>
+    <string name="gvmes">GVMES</string>
+    <string name="configuracion">Configuración</string>
+    <string name="usuarios">Usuarios</string>
 
 
 </resources>

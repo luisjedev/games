@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fondo_reserva"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/boton_dia_dialogo"
+    android:backgroundTint="@color/blanco"
+    app:cardBackgroundColor="@color/blanco"
+    app:cardElevation="8dp"
+    app:cardPreventCornerOverlap="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imagen_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1.8"
+            app:srcCompat="@drawable/seleccionarfoto" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/email_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/nombre_usuario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/nombre" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/contraseña_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:text="@string/contraseña" />
+
+            <TextView
+                android:id="@+id/moneda_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/moneda" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/borrar_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_weight="2.2"
+            android:background="@drawable/pngocean"
+            app:srcCompat="@drawable/pngocean" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -162,11 +162,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     if (resultado.equals(valor_contraseña)){
                         obj_editor.putBoolean("admin",true);
                         obj_editor.commit();
-                        Intent i = new Intent(MainActivity.this,MenuGlobal.class);
+                        Intent i = new Intent(MainActivity.this,MenuAdministrador.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         Toast.makeText(getApplicationContext(), "Bienvenido señor", Toast.LENGTH_LONG).show();
-
 
                     }else{
 
@@ -182,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                             System.out.println("EXISTE");
                                             DataSnapshot hijo=dataSnapshot.getChildren().iterator().next();
                                             String contraseña_verdadera = hijo.getValue(Cliente.class).getContraseña();
+                                            String nombre_usuario = hijo.getValue(Cliente.class).getNombre();
                                             int valor_moneda = hijo.getValue(Cliente.class).getMoneda();
                                             String id_cliente = hijo.getKey();
 
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                                                 obj_editor.putBoolean("google",false);
                                                 obj_editor.commit();
-                                                guardarPreferencias(id_cliente,valor_moneda);
+                                                guardarPreferencias(id_cliente,valor_moneda,nombre_usuario);
                                                 System.out.println(id_cliente+"   "+valor_moneda);
                                                 startActivity(i);
                                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -228,11 +228,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+
+
+
     }
-    public void guardarPreferencias(String id,int moneda){
+    public void guardarPreferencias(String id,int moneda,String nombre){
         SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         SharedPreferences.Editor obj_editor = credenciales.edit();
         obj_editor.putString("id_usuario",id);
+        obj_editor.putString("nombre_usuario",nombre);
         obj_editor.putInt("moneda",moneda);
         obj_editor.putBoolean("admin",false);
         obj_editor.commit();

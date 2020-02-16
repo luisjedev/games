@@ -3,6 +3,7 @@ package com.example.loggin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +29,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
     private FrameLayout fragments;
     private BottomNavigationView menu_admin;
     private int posicionAnimacion;
+    private MaterialToolbar topbar;
 
 
 
@@ -40,6 +43,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         fondo = (ConstraintLayout) findViewById(R.id.fondo);
         fragments = (FrameLayout) findViewById(R.id.fragments_admin);
         menu_admin = (BottomNavigationView) findViewById(R.id.menuadmin);
+        topbar = (MaterialToolbar) findViewById(R.id.materialToolbar);
 
         comprobarNoche();
         if (comprobarNoche()){
@@ -57,12 +61,51 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                 .addToBackStack(null)
                 .commit();
 
+        topbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.opciones:
+                        SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+                        Boolean modo_actual= credenciales.getBoolean("google",false);
+
+                        if (modo_actual==true){
+                            Intent intent = new Intent(getApplicationContext(), MenuGoogle.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);
+                        }else{
+                            Intent intent = new Intent(getApplicationContext(), Preferencias.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);
+                        }
+
+                        break;
+
+                    case R.id.salir:
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        break;
+
+                    case R.id.configuracion:
+//                        Intent intent = new Intent(getApplicationContext(), MenuAdministrador.class);
+//                        startActivity(intent);
+//                        overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);
+                        break;
+
+                    default:
+                }
+                return false;
+            }
+        });
+
         menu_admin.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
-                    case R.id.productos:
+                    case R.id.agregar:
 
                         if (posicionAnimacion!=0) {
 
@@ -82,7 +125,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         if (posicionAnimacion<1){
 
                             posicionAnimacion = 1;
-                            FragmentProductos frag = new FragmentProductos();
+                            FragmentReservas frag = new FragmentReservas();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -94,7 +137,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         }else if (posicionAnimacion>1){
 
                             posicionAnimacion = 1;
-                            FragmentProductos frag = new FragmentProductos();
+                            FragmentReservas frag = new FragmentReservas();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -105,7 +148,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         }
 
                         break;
-                    case R.id.clientes:
+                    case R.id.productos:
 
                         if (posicionAnimacion<2){
 
@@ -162,11 +205,17 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
 
                         break;
 
-                    case R.id.volver:
+                    case R.id.usuarios:
 
-                        Intent i = new Intent(getApplicationContext(),MenuGlobal.class);
-                        startActivity(i);
-                        overridePendingTransition(R.anim.enter_left_to_right, R.anim.exit_left_to_right);
+                            posicionAnimacion = 4;
+                            FragmentUsuarios frag = new FragmentUsuarios();
+                            frag.setArguments(getIntent().getExtras());
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+                                    .replace(R.id.fragments_admin, frag)
+                                    .addToBackStack(null)
+                                    .commit();
 
                         break;
 

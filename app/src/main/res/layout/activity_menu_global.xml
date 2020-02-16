@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/opensansregular"
-            android:text="@string/menu_principal"
+            android:text="@string/gvmes"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/common_google_signin_btn_text_dark_default"

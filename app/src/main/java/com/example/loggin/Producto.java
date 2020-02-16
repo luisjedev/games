@@ -1,8 +1,11 @@
 package com.example.loggin;
 
+import android.net.Uri;
+
 public class Producto {
 
-    private String id,foto_url,nombre,categoria,descripcion,precio;
+    private String id,nombre,categoria,descripcion,precio;
+    private Uri foto_url;
     private boolean disponible;
 
     public Producto() {
@@ -30,7 +33,7 @@ public class Producto {
         return id;
     }
 
-    public String getFoto_url() {
+    public Uri getFoto_url() {
         return foto_url;
     }
 
@@ -58,7 +61,7 @@ public class Producto {
         this.id = id;
     }
 
-    public void setFoto_url(String foto_url) {
+    public void setFoto_url(Uri foto_url) {
         this.foto_url = foto_url;
     }
 
