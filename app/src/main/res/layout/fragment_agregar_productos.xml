@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/disponible"
-            android:layout_width="118dp"
-            android:layout_height="118dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/seleccionarfoto" />
+            app:srcCompat="@drawable/seleccionarfoto" />
 
         <Button
             android:id="@+id/tomarfoto"

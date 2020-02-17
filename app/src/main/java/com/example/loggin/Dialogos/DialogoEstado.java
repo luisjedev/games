@@ -105,16 +105,9 @@ public class DialogoEstado extends DialogFragment {
                 }
 
                 ref.child("tienda").child("reservas").child(id_categoria).child("estado").setValue(resultado);
-
-
                 dismiss();
             }
         });
-
-
-
-
-
 
         return v;
 
