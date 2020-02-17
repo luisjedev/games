@@ -103,6 +103,7 @@ public class FragmentUsuarios extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     cliente.setUrl_foto(uri);
+                                    System.out.println(uri);
                                     adapter.notifyDataSetChanged();
                                 }
                             });

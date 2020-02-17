@@ -50,7 +50,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Vi
             moneda = (TextView) itemView.findViewById(R.id.moneda_usuario);
 
             borrar = (ImageButton) itemView.findViewById(R.id.borrar_usuario);
-            foto = (ImageView) itemView.findViewById(R.id.foto_usuario);
+            foto = (ImageView) itemView.findViewById(R.id.imagen_usuario);
 
 
         }
@@ -103,7 +103,10 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Vi
         viewHolder.moneda.setText(valor_moneda);
 
                 //PROBLEMA DE LA OSTIA
-//        Glide.with(context).load(cliente.getUrl_foto()).into(viewHolder.foto);
+        System.out.println(cliente.getUrl_foto());
+        Glide.with(context)
+                .load(cliente.getUrl_foto())
+                .into(viewHolder.foto);
 
         viewHolder.borrar.setOnClickListener(new View.OnClickListener() {
             @Override
