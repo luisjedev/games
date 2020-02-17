@@ -13,11 +13,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.loggin.Objetos.Reserva;
 import com.example.loggin.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class DialogoEstado extends DialogFragment {
 
@@ -33,6 +39,7 @@ public class DialogoEstado extends DialogFragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialogo_estado_pedido, container, false);
 
+        ref = FirebaseDatabase.getInstance().getReference();
 
         cancelar = (Button) v.findViewById(R.id.cancelar);
         aceptar = (Button) v.findViewById(R.id.aceptar);
@@ -42,6 +49,36 @@ public class DialogoEstado extends DialogFragment {
         preparado = (RadioButton) v.findViewById(R.id.preparado);
         enviado = (RadioButton) v.findViewById(R.id.enviado);
 
+        final String id_categoria = getArguments().getString("id");
+
+
+        ref.child("tienda").child("reservas").child(id_categoria).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+
+                    Reserva reserva = dataSnapshot.getValue(Reserva.class);
+                    int estado = reserva.getEstado();
+
+                    switch (estado){
+                        case 0:
+                            recibido.setChecked(true);
+                            break;
+
+                        case 1:
+                            preparado.setChecked(true);
+                            break;
+                        case 2:
+                            enviado.setChecked(true);
+                            break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         comprobarNocheFragment();
 
@@ -57,8 +94,20 @@ public class DialogoEstado extends DialogFragment {
             @Override
             public void onClick(View view) {
 
+                int resultado;
+
+                if (recibido.isChecked()){
+                    resultado = 0;
+                }else if(preparado.isChecked()){
+                    resultado = 1;
+                }else{
+                    resultado= 2;
+                }
+
+                ref.child("tienda").child("reservas").child(id_categoria).child("estado").setValue(resultado);
 
 
+                dismiss();
             }
         });
 

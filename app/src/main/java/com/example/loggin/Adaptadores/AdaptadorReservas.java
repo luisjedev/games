@@ -2,6 +2,7 @@ package com.example.loggin.Adaptadores;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.loggin.Dialogos.DialogoEstado;
 import com.example.loggin.R;
 import com.example.loggin.Objetos.Reserva;
 import com.google.firebase.database.DatabaseReference;
@@ -131,7 +133,11 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
                 @Override
                 public void onClick(View view) {
                     AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
-
+                    DialogoEstado dia = new DialogoEstado();
+                    Bundle args = new Bundle();
+                    args.putString("id",reserva.getId());
+                    dia.setArguments(args);
+                    dia.show(activity.getSupportFragmentManager(),"estado");
 
                 }
             });
