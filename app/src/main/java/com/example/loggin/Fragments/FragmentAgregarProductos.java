@@ -33,11 +33,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.loggin.Fragments.FragmentProductos;
 import com.example.loggin.Objetos.Producto;
 import com.example.loggin.OnFragmentInteractionListener;
 import com.example.loggin.R;
-import com.example.loggin.dialogoCategoria;
+import com.example.loggin.Dialogos.DialogoCategoria;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -143,7 +142,7 @@ public class FragmentAgregarProductos extends Fragment {
             @Override
             public void onClick(View view) {
 
-                new dialogoCategoria().show(getFragmentManager(),"añadir");
+                new DialogoCategoria().show(getFragmentManager(),"añadir");
             }
         });
 

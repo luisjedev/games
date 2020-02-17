@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Dialogos;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.loggin.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.sql.SQLOutput;
 
-public class dialogoCategoria extends DialogFragment {
+public class DialogoCategoria extends DialogFragment {
 
     private EditText categoria;
     private Button cancelar, aceptar;
