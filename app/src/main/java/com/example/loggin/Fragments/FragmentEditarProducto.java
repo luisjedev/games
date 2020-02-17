@@ -159,6 +159,8 @@ public class FragmentEditarProducto extends Fragment {
         comprobarNocheFragment();
         cargarCategorias();
 
+
+
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -246,6 +248,10 @@ public class FragmentEditarProducto extends Fragment {
                 nombre.setText(producto.getNombre());
                 descripcion.setText(producto.getDescripcion());
                 precio.setText(producto.getPrecio());
+
+                categoria.setSelection(comprobarCategoria(producto.getCategoria()));
+
+                
                 if (producto.isDisponible()){
                     estado_producto.setChecked(true);
                 }
@@ -401,6 +407,18 @@ public class FragmentEditarProducto extends Fragment {
         });
 
 
+
+    }
+
+    public int comprobarCategoria(String categoria){
+        int res=0;
+        for (int i=0; i<lista_categorias.length;i++){
+
+            if (categoria.equals(lista_categorias[i])){
+                res=i;
+            }
+        }
+        return res;
     }
 
     @Override
@@ -436,6 +454,8 @@ public class FragmentEditarProducto extends Fragment {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
+
 
 
 
