@@ -13,14 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.loggin.Fragments.FragmentAgregarProductos;
 import com.example.loggin.R;
 import com.example.loggin.Objetos.Reserva;
+import com.example.loggin.dialogoCategoria;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -81,6 +84,9 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
 
+        SharedPreferences credenciales = context.getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+        final Boolean admin= credenciales.getBoolean("admin",false);
+
         //Vamos obteniendo mail por mail
         final Reserva reserva = this.reservas.get(position);
         //Enlazamos los elementos de la vista con el modelo
@@ -121,6 +127,22 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         viewHolder.estado.setText(estado_pedido);
 
         Glide.with(context).load(reserva.getFoto_url()).into(viewHolder.foto);
+
+
+        if (admin){
+            viewHolder.foto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
+
+
+                }
+            });
+        }
+
+
+
+
 
         viewHolder.borrar.setOnClickListener(new View.OnClickListener() {
             @Override
