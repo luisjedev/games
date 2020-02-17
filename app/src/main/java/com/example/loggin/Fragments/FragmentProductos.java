@@ -79,6 +79,9 @@ public class FragmentProductos extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_fragment_productos, container, false);
 
+        SharedPreferences credenciales = getActivity().getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+        final Boolean admin= credenciales.getBoolean("admin",false);
+
         fondo=(FrameLayout) v.findViewById(R.id.fondofrag);
         lista_productos = (RecyclerView) v.findViewById(R.id.lista_productos);
         items=new ArrayList<>();
@@ -93,8 +96,13 @@ public class FragmentProductos extends Fragment {
                 for(DataSnapshot hijo:dataSnapshot.getChildren()) {
                     final Producto producto = hijo.getValue(Producto.class);
                     producto.setId(hijo.getKey());
-                    if (producto.isDisponible()){
+
+                    if (admin){
                         items.add(producto);
+                    }else{
+                        if (producto.isDisponible()){
+                            items.add(producto);
+                         }
                     }
                 }
                 for(final Producto producto:items){

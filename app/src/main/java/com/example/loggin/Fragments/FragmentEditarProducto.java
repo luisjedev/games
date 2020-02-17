@@ -144,6 +144,8 @@ public class FragmentEditarProducto extends Fragment {
         sto = FirebaseStorage.getInstance().getReference();
         foto_url = null;
 
+        cargarCategorias();
+
         if (!admin){
 
             nombre.setFocusable(false);
@@ -157,7 +159,7 @@ public class FragmentEditarProducto extends Fragment {
         }
 
         comprobarNocheFragment();
-        cargarCategorias();
+
 
 
 

@@ -217,6 +217,8 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
 
                     case R.id.usuarios:
 
+                        if (posicionAnimacion<4){
+
                             posicionAnimacion = 4;
                             FragmentUsuarios frag = new FragmentUsuarios();
                             frag.setArguments(getIntent().getExtras());
@@ -226,9 +228,8 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                                     .replace(R.id.fragments_admin, frag)
                                     .addToBackStack(null)
                                     .commit();
-
+                           }
                         break;
-
                     default:
                 }
                 return true;

@@ -90,9 +90,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         email=(TextInputEditText) findViewById(R.id.email);
         contraseña=(TextInputEditText) findViewById(R.id.contraseña);
 
-        email.setText("luisjedev@gmail.com");
-        contraseña.setText("EAG2019");
-
 
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();

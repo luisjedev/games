@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 
 import com.example.loggin.Fragments.FragmentMapa;
@@ -33,6 +34,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
     private int posicionAnimacion;
     private FrameLayout fondo;
     private DatabaseReference ref;
+    private String[] lista_categorias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
         setContentView(R.layout.activity_menu_global);
 
         ref = FirebaseDatabase.getInstance().getReference();
+
+        cargarCategorias();
 
         guardarTienda();
 
@@ -304,6 +308,42 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
             }
         });
+    }
+
+
+    public void cargarCategorias(){
+
+        ref.child("tienda").child("categorias").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChildren()){
+
+                    int i=0;
+                    int tamaño = (int) dataSnapshot.getChildrenCount();
+                    lista_categorias = new String[tamaño];
+
+                    for(DataSnapshot hijo:dataSnapshot.getChildren()) {
+
+                        String heroe = hijo.getValue(String.class);
+                        lista_categorias[i] = heroe;
+                        i++;
+
+                    }
+
+//
+//                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, lista_categorias);
+//                    categoria.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
 

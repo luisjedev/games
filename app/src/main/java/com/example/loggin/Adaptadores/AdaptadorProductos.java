@@ -1,5 +1,7 @@
 package com.example.loggin.Adaptadores;
 
+import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +19,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.loggin.Fragments.FragmentEditarProducto;
 import com.example.loggin.Objetos.Producto;
@@ -30,6 +38,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -39,16 +50,27 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     public Context context;
     private DatabaseReference ref;
     private StorageReference sto;
-
+    private String valor_dolar_euro;
+    private String valor_libra_euro;
+    private String VALOR_EURO="1";
+    private RequestQueue mQueue;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre,categoria,precio,descripcion;
         public ImageView foto_producto,disponible;
         public CardView fondo;
+
+        public String valor_dolar,valor_libra;
+        NotificationManager mNotificationManager;
         public Button boton;
 
         public ViewHolder(final View itemView) {
             super(itemView);
+
+
+
+            mQueue = Volley.newRequestQueue(context);
+            leerValoresMonedas();
 
 
             nombre = (TextView)itemView.findViewById(R.id.nombre_prod);
@@ -56,6 +78,8 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
             precio = (TextView)itemView.findViewById(R.id.precio);
             descripcion = (TextView)itemView.findViewById(R.id.descripcion);
             fondo = (CardView) itemView.findViewById(R.id.fondo_item);
+
+
 
             foto_producto = (ImageView)itemView.findViewById(R.id.foto_producto);
             disponible = (ImageView) itemView.findViewById(R.id.disponible);
@@ -73,6 +97,9 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
+
+        System.out.println(valor_dolar_euro);
+        System.out.println(valor_libra_euro);
         LayoutInflater inflater = LayoutInflater.from(context);
         //Especificamos el fichero XML que se utilizará como vista
         View contactView = inflater.inflate(R.layout.elemento_lista, parent, false);
@@ -91,6 +118,8 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         SharedPreferences credenciales = context.getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         final String dueño_actual = credenciales.getString("id_usuario","");
         final Boolean admin= credenciales.getBoolean("admin",false);
+        final int tipo_moneda= credenciales.getInt("moneda",0);
+        System.out.println(tipo_moneda);
         final String nombre_cliente = credenciales.getString("nombre_usuario","");
 
         //Vamos obteniendo mail por mail
@@ -152,8 +181,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 
                 }
 
-
-
             }
         });
 
@@ -188,6 +215,38 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     @Override
     public int getItemCount() {
         return this.productos.size();
+    }
+
+    //API
+    public void leerValoresMonedas(){
+        String url_monedas = "https://api.exchangeratesapi.io/latest?symbols=USD,GBP";
+
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, url_monedas, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    JSONObject respuestaAPI=response.getJSONObject("rates");
+
+                     valor_dolar_euro=respuestaAPI.getString("USD");
+                     valor_libra_euro= respuestaAPI.getString("GBP");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+          }
+        );
+        mQueue.add(jsonObjectRequest);
     }
 
 }
