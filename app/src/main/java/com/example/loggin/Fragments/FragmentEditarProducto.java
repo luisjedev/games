@@ -303,17 +303,41 @@ public class FragmentEditarProducto extends Fragment {
                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                                     if (dataSnapshot.hasChildren()) {
-                                        Toast.makeText(getContext(), "El producto ya existe", Toast.LENGTH_LONG).show();
+
+                                        DataSnapshot hijo = dataSnapshot.getChildren().iterator().next();
+
+                                        if (hijo.getKey().equals(mParam1)){
+
+                                            if (foto_url != null) {
+
+                                                Producto nuevo_producto = new Producto(valor_nombre,valor_categoria,valor_descripcion,valor_precio,valor_estado);
+
+
+                                                ref.child("tienda").child("productos").child(mParam1).setValue(nuevo_producto);
+                                                sto.child("tienda").child("productos").child("imagenes").child(mParam1).putFile(foto_url);
+                                                Toast.makeText(getContext(), "Producto registrado con éxito", Toast.LENGTH_LONG).show();
+
+                                            } else {
+                                                Toast.makeText(getContext(), "No se ha seleccionado una imagen", Toast.LENGTH_LONG).show();
+                                            }
+
+                                        }else{
+
+                                            Toast.makeText(getContext(), "El producto ya existe", Toast.LENGTH_LONG).show();
+
+                                        }
+
                                     } else {
 
                                         if (foto_url != null) {
 
                                             Producto nuevo_producto = new Producto(valor_nombre,valor_categoria,valor_descripcion,valor_precio,valor_estado);
-                                            String clave = ref.child("tienda").child("productos").push().getKey();
 
-                                            ref.child("tienda").child("productos").child(clave).setValue(nuevo_producto);
-                                            sto.child("tienda").child("productos").child("imagenes").child(clave).putFile(foto_url);
+
+                                            ref.child("tienda").child("productos").child(mParam1).setValue(nuevo_producto);
+                                            sto.child("tienda").child("productos").child("imagenes").child(mParam1).putFile(foto_url);
                                             Toast.makeText(getContext(), "Producto registrado con éxito", Toast.LENGTH_LONG).show();
 
 
