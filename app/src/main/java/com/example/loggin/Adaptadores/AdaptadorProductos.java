@@ -124,7 +124,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 
                 //ARREGLAR
 //              frag.newInstance(producto.getId(),"id");
-
+        
                 if (admin){
 
                     Bundle args = new Bundle();

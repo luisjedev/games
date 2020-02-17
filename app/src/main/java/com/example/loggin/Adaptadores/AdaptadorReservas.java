@@ -111,12 +111,10 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
                 break;
             case 1:
                 estado_pedido="Preparado para el envío";
-                viewHolder.fondo_cancelar.setVisibility(View.GONE);
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.preparado);
                 break;
             case 2:
                 estado_pedido="Enviado";
-                viewHolder.fondo_cancelar.setVisibility(View.GONE);
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.enviado);
                 break;
         }

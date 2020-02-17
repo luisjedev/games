@@ -251,7 +251,7 @@ public class FragmentEditarProducto extends Fragment {
 
                 categoria.setSelection(comprobarCategoria(producto.getCategoria()));
 
-                
+
                 if (producto.isDisponible()){
                     estado_producto.setChecked(true);
                 }
