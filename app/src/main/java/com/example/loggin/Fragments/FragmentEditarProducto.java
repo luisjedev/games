@@ -33,9 +33,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.loggin.Objetos.Producto;
 import com.example.loggin.OnFragmentInteractionListener;
 import com.example.loggin.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,7 +67,7 @@ public class FragmentEditarProducto extends Fragment {
 
     private ImageView foto_prod;
     private String currentPhotoPath;
-    private ImageButton agregarCategoria;
+    private MaterialButton volver;
     private Boolean camara;
     private EditText nombre, precio, descripcion;
     private Spinner categoria;
@@ -78,7 +81,6 @@ public class FragmentEditarProducto extends Fragment {
     private StorageReference sto;
     private CheckBox estado_producto;
     private FrameLayout fondo;
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -121,8 +123,6 @@ public class FragmentEditarProducto extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},1000);
         }
 
-
-
         nombre = (EditText) v.findViewById(R.id.nombre_editar);
         categoria = (Spinner) v.findViewById(R.id.categoria_editar);
         descripcion = (EditText) v.findViewById(R.id.descripcion_editar);
@@ -131,7 +131,7 @@ public class FragmentEditarProducto extends Fragment {
         foto_prod = (ImageView) v.findViewById(R.id.foto_editar);
         modificar = (Button) v.findViewById(R.id.modificar);
         tomarfoto = (Button) v.findViewById(R.id.tomarfoto);
-        agregarCategoria = (ImageButton) v.findViewById(R.id.agregar_categoria);
+        volver = (MaterialButton) v.findViewById(R.id.volver);
 
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
@@ -139,6 +139,17 @@ public class FragmentEditarProducto extends Fragment {
 
         comprobarNocheFragment();
         cargarCategorias();
+
+        volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                
+
+            }
+        });
+
+
 
         foto_prod.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +199,23 @@ public class FragmentEditarProducto extends Fragment {
                 Producto producto = dataSnapshot.getValue(Producto.class);
 
                 nombre.setText(producto.getNombre());
+                descripcion.setText(producto.getDescripcion());
+                precio.setText(producto.getPrecio());
+                if (producto.isDisponible()){
+                    estado_producto.setChecked(true);
+                }
+
+                sto.child("tienda").child("productos").child("imagenes").child(mParam1).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(getContext()).load(uri).into(foto_prod);
+                        foto_url=uri;
+
+                    }
+                });
+
+
+
             }
 
             @Override
@@ -195,11 +223,6 @@ public class FragmentEditarProducto extends Fragment {
 
             }
         });
-
-
-
-        
-
 
         modificar.setOnClickListener(new View.OnClickListener() {
             @Override

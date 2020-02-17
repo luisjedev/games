@@ -130,7 +130,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
                 AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
                 activity.getSupportFragmentManager()
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                        .setCustomAnimations(R.anim.enter_top_to_bot, R.anim.exit_top_to_bot)
                         .replace(R.id.fragments_admin, frag)
                         .addToBackStack(null)
                         .commit();

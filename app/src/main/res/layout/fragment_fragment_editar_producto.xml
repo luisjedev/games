@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/foto_editar"
-            android:layout_width="118dp"
-            android:layout_height="118dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/seleccionarfoto" />
+            app:srcCompat="@drawable/seleccionarfoto" />
 
         <Button
             android:id="@+id/tomarfoto"
@@ -154,6 +154,17 @@
                 android:fontFamily="@font/open_sans"
                 android:text="@string/modificar"
                 android:textAllCaps="false" />
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/volver"
+                android:layout_gravity="center"
+                android:text="@string/volver"
+                android:background="@color/colorAccent"
+                android:textColor="@color/blanco"
+                android:layout_marginTop="3dp">
+
+            </com.google.android.material.button.MaterialButton>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
