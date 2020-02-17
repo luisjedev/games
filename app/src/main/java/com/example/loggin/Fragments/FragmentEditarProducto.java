@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -67,7 +68,7 @@ public class FragmentEditarProducto extends Fragment {
 
     private ImageView foto_prod;
     private String currentPhotoPath;
-    private MaterialButton volver;
+    private Button volver;
     private Boolean camara;
     private EditText nombre, precio, descripcion;
     private Spinner categoria;
@@ -131,7 +132,7 @@ public class FragmentEditarProducto extends Fragment {
         foto_prod = (ImageView) v.findViewById(R.id.foto_editar);
         modificar = (Button) v.findViewById(R.id.modificar);
         tomarfoto = (Button) v.findViewById(R.id.tomarfoto);
-        volver = (MaterialButton) v.findViewById(R.id.volver);
+        volver = (Button) v.findViewById(R.id.volver);
 
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
@@ -144,7 +145,14 @@ public class FragmentEditarProducto extends Fragment {
             @Override
             public void onClick(View v) {
 
-                
+                FragmentProductos frag = new FragmentProductos();
+                AppCompatActivity activity= (AppCompatActivity) getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                        .replace(R.id.fragments_admin, frag)
+                        .addToBackStack(null)
+                        .commit();
 
             }
         });
@@ -386,6 +394,7 @@ public class FragmentEditarProducto extends Fragment {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
 
 
 }

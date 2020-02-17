@@ -20,10 +20,16 @@ import com.example.loggin.Fragments.FragmentMapa;
 import com.example.loggin.Fragments.FragmentProductos;
 import com.example.loggin.Fragments.FragmentReservas;
 import com.example.loggin.Fragments.FragmentUsuarios;
+import com.example.loggin.Objetos.Tienda;
 import com.example.loggin.OnFragmentInteractionListener;
 import com.example.loggin.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MenuAdministrador extends AppCompatActivity implements OnFragmentInteractionListener {
 
@@ -32,6 +38,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
     private BottomNavigationView menu_admin;
     private int posicionAnimacion;
     private MaterialToolbar topbar;
+    private DatabaseReference ref;
 
 
 
@@ -40,7 +47,8 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu__administrador);
 
-
+        ref = FirebaseDatabase.getInstance().getReference();
+        guardarTienda();
 
         fondo = (ConstraintLayout) findViewById(R.id.fondo);
         fragments = (FrameLayout) findViewById(R.id.fragments_admin);
@@ -250,6 +258,28 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         if (TAG.equals("opcion")){
 
         }
+    }
+
+    public void guardarTienda(){
+
+        ref.child("tienda").child("datos").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Tienda tienda = dataSnapshot.getValue(Tienda.class);
+
+                SharedPreferences credenciales = getSharedPreferences("tienda", Context.MODE_PRIVATE);
+                SharedPreferences.Editor obj_editor = credenciales.edit();
+
+                obj_editor.putString("latitud",""+tienda.getLatitud());
+                obj_editor.putString("longitud",""+tienda.getLongitud());
+                obj_editor.commit();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

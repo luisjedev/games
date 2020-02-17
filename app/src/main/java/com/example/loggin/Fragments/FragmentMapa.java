@@ -204,8 +204,9 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback,
 
         SharedPreferences credenciales = getActivity().getSharedPreferences("tienda", Context.MODE_PRIVATE);
         String latitud = credenciales.getString("latitud","");
+        System.out.println(latitud+" latitud");
         String longitud = credenciales.getString("longitud","");
-
+        System.out.println(longitud+" longitud");
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(Double.parseDouble(latitud),Double.parseDouble(longitud)))
