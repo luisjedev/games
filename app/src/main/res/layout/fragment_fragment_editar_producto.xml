@@ -112,16 +112,17 @@
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:id="@+id/texto_categoria"
                     android:text="@string/categoria"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="16dp">
 
-                </com.google.android.material.textview.MaterialTextView>
+                </TextView>
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/categoria_editar"

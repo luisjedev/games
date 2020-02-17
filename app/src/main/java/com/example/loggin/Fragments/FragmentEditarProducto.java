@@ -32,6 +32,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -79,6 +80,7 @@ public class FragmentEditarProducto extends Fragment {
     private Uri foto_url;
     private String[] lista_categorias;
     private DatabaseReference ref;
+    private TextView texto_categoria;
     private StorageReference sto;
     private CheckBox estado_producto;
     private FrameLayout fondo;
@@ -124,6 +126,9 @@ public class FragmentEditarProducto extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},1000);
         }
 
+        SharedPreferences credenciales = getActivity().getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+        final Boolean admin= credenciales.getBoolean("admin",false);
+
         nombre = (EditText) v.findViewById(R.id.nombre_editar);
         categoria = (Spinner) v.findViewById(R.id.categoria_editar);
         descripcion = (EditText) v.findViewById(R.id.descripcion_editar);
@@ -133,10 +138,23 @@ public class FragmentEditarProducto extends Fragment {
         modificar = (Button) v.findViewById(R.id.modificar);
         tomarfoto = (Button) v.findViewById(R.id.tomarfoto);
         volver = (Button) v.findViewById(R.id.volver);
+        texto_categoria = (TextView) v.findViewById(R.id.texto_categoria);
 
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
         foto_url = null;
+
+        if (!admin){
+
+            nombre.setFocusable(false);
+            descripcion.setFocusable(false);
+            categoria.setVisibility(View.GONE);
+            precio.setFocusable(false);
+            estado_producto.setClickable(false);
+            foto_prod.setClickable(false);
+            modificar.setVisibility(View.GONE);
+            tomarfoto.setVisibility(View.GONE);
+        }
 
         comprobarNocheFragment();
         cargarCategorias();
@@ -145,29 +163,48 @@ public class FragmentEditarProducto extends Fragment {
             @Override
             public void onClick(View v) {
 
+
                 FragmentProductos frag = new FragmentProductos();
                 AppCompatActivity activity= (AppCompatActivity) getContext();
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                        .replace(R.id.fragments_admin, frag)
-                        .addToBackStack(null)
-                        .commit();
+
+                if (admin){
+
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.fragments_admin, frag)
+                            .addToBackStack(null)
+                            .commit();
+
+                }else {
+
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.frame_fragments, frag)
+                            .addToBackStack(null)
+                            .commit();
+                }
 
             }
         });
 
 
+        if (admin){
 
-        foto_prod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                camara=false;
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, SELECCIONAR_FOTO);
-            }
-        });
+            foto_prod.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    camara=false;
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, SELECCIONAR_FOTO);
+                }
+            });
+        }
+
+
+
 
         tomarfoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +249,11 @@ public class FragmentEditarProducto extends Fragment {
                 if (producto.isDisponible()){
                     estado_producto.setChecked(true);
                 }
+
+                if (!admin){
+                    texto_categoria.setText(producto.getCategoria());
+                }
+
 
                 sto.child("tienda").child("productos").child("imagenes").child(mParam1).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override

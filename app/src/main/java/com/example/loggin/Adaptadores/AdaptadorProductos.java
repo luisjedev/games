@@ -90,6 +90,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
 
         SharedPreferences credenciales = context.getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         final String dueño_actual = credenciales.getString("id_usuario","");
+        final Boolean admin= credenciales.getBoolean("admin",false);
         final String nombre_cliente = credenciales.getString("nombre_usuario","");
 
         //Vamos obteniendo mail por mail
@@ -124,16 +125,34 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
                 //ARREGLAR
 //              frag.newInstance(producto.getId(),"id");
 
-                Bundle args = new Bundle();
-                args.putString("param1",producto.getId());
-                frag.setArguments(args);
-                AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                        .replace(R.id.fragments_admin, frag)
-                        .addToBackStack(null)
-                        .commit();
+                if (admin){
+
+                    Bundle args = new Bundle();
+                    args.putString("param1",producto.getId());
+                    frag.setArguments(args);
+                    AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.fragments_admin, frag)
+                            .addToBackStack(null)
+                            .commit();
+                }else{
+
+                    Bundle args = new Bundle();
+                    args.putString("param1",producto.getId());
+                    frag.setArguments(args);
+                    AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.frame_fragments, frag)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+
+
 
             }
         });
