@@ -41,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -50,28 +51,17 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     public Context context;
     private DatabaseReference ref;
     private StorageReference sto;
-    private String valor_dolar_euro;
-    private String valor_libra_euro;
-    private String VALOR_EURO="1";
-    private RequestQueue mQueue;
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre,categoria,precio,descripcion;
         public ImageView foto_producto,disponible;
         public CardView fondo;
 
-        public String valor_dolar,valor_libra;
-        NotificationManager mNotificationManager;
         public Button boton;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-
-
-
-            mQueue = Volley.newRequestQueue(context);
-            leerValoresMonedas();
-
 
             nombre = (TextView)itemView.findViewById(R.id.nombre_prod);
             categoria = (TextView)itemView.findViewById(R.id.categoria);
@@ -79,11 +69,10 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
             descripcion = (TextView)itemView.findViewById(R.id.descripcion);
             fondo = (CardView) itemView.findViewById(R.id.fondo_item);
 
-
-
             foto_producto = (ImageView)itemView.findViewById(R.id.foto_producto);
             disponible = (ImageView) itemView.findViewById(R.id.disponible);
             boton = (Button) itemView.findViewById(R.id.reservar);
+
         }
     }
 
@@ -97,9 +86,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-
-        System.out.println(valor_dolar_euro);
-        System.out.println(valor_libra_euro);
         LayoutInflater inflater = LayoutInflater.from(context);
         //Especificamos el fichero XML que se utilizará como vista
         View contactView = inflater.inflate(R.layout.elemento_lista, parent, false);
@@ -113,13 +99,14 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
 
-//       final AppCompatActivity activity=(AppCompatActivity)viewHolder.itemView.getContext();
+        SharedPreferences monedas = context.getSharedPreferences("valor_moneda", Context.MODE_PRIVATE);
+        final String valor_dolar = monedas.getString("dolar","");
+        final String valor_libra = monedas.getString("libra","");
 
         SharedPreferences credenciales = context.getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         final String dueño_actual = credenciales.getString("id_usuario","");
         final Boolean admin= credenciales.getBoolean("admin",false);
         final int tipo_moneda= credenciales.getInt("moneda",0);
-        System.out.println(tipo_moneda);
         final String nombre_cliente = credenciales.getString("nombre_usuario","");
 
         //Vamos obteniendo mail por mail
@@ -140,7 +127,35 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         viewHolder.nombre.setText(producto.getNombre());
         viewHolder.categoria.setText(producto.getCategoria());
         viewHolder.descripcion.setText(producto.getDescripcion());
-        viewHolder.precio.setText(producto.getPrecio()+" €");
+
+        String precio_string_producto = producto.getPrecio();
+        double precio_number_producto = Double.parseDouble(precio_string_producto);
+        double precio_final=0;
+        char moneda='a';
+
+
+        switch (tipo_moneda){
+
+            case 0:
+                precio_final = precio_number_producto;
+                moneda='€';
+                break;
+            case 1:
+                System.out.println(valor_dolar);
+                precio_final = precio_number_producto*
+                        (Double.parseDouble(valor_dolar));
+                moneda='$';
+                break;
+            case 2:
+                System.out.println(valor_libra);
+                precio_final = precio_number_producto*(Double.parseDouble(valor_libra));
+                moneda='£';
+                break;
+
+        }
+
+        DecimalFormat dosDecimales= new DecimalFormat("#.00");
+        viewHolder.precio.setText(""+dosDecimales.format(precio_final)+" "+moneda);
 
         Glide.with(context).load(producto.getFoto_url()).into(viewHolder.foto_producto);
 
@@ -217,36 +232,6 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         return this.productos.size();
     }
 
-    //API
-    public void leerValoresMonedas(){
-        String url_monedas = "https://api.exchangeratesapi.io/latest?symbols=USD,GBP";
 
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, url_monedas, null, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-
-                try {
-
-                    JSONObject respuestaAPI=response.getJSONObject("rates");
-
-                     valor_dolar_euro=respuestaAPI.getString("USD");
-                     valor_libra_euro= respuestaAPI.getString("GBP");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-          }
-        );
-        mQueue.add(jsonObjectRequest);
-    }
 
 }

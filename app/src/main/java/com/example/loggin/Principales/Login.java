@@ -90,6 +90,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         email=(TextInputEditText) findViewById(R.id.email);
         contraseña=(TextInputEditText) findViewById(R.id.contraseña);
 
+        email.setText("luisjedev@gmail.com");
+        contraseña.setText("admin");
 
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
@@ -208,7 +210,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                                     }
                                 });
 
-
                     }
                 }
 
@@ -225,9 +226,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-
-
-
     }
     public void guardarPreferencias(String id,int moneda,String nombre){
         SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
@@ -237,13 +235,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         obj_editor.putInt("moneda",moneda);
         obj_editor.putBoolean("admin",false);
         obj_editor.commit();
-
     }
 
     public boolean comprobarNoche(){
-
         boolean res;
-
         SharedPreferences modonoche = getSharedPreferences("noche", Context.MODE_PRIVATE);
         Boolean modo_actual= modonoche.getBoolean("noche",false);
 
@@ -254,7 +249,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             res=false;
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
         return res;
     }
 

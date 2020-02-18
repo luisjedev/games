@@ -13,6 +13,12 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.loggin.Fragments.FragmentMapa;
 import com.example.loggin.Fragments.FragmentProductos;
 import com.example.loggin.Fragments.FragmentReservas;
@@ -27,6 +33,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MenuGlobal extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private BottomNavigationView menuBottom;
@@ -35,6 +44,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
     private FrameLayout fondo;
     private DatabaseReference ref;
     private String[] lista_categorias;
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +53,10 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
         ref = FirebaseDatabase.getInstance().getReference();
 
+        mQueue = Volley.newRequestQueue(this);
+
         cargarCategorias();
+        leerValoresMonedas();
 
         guardarTienda();
 
@@ -331,9 +344,6 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
                     }
 
-//
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, lista_categorias);
-//                    categoria.setAdapter(adapter);
                 }
             }
 
@@ -345,6 +355,46 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
 
     }
+
+    public void leerValoresMonedas(){
+        String url_monedas = "https://api.exchangeratesapi.io/latest?symbols=USD,GBP";
+
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, url_monedas, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    SharedPreferences monedas = getSharedPreferences("valor_moneda", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor obj_editor = monedas.edit();
+
+                    JSONObject respuestaAPI=response.getJSONObject("rates");
+
+                   String valor_dolar_euro=respuestaAPI.getString("USD");
+                   String valor_libra_euro= respuestaAPI.getString("GBP");
+
+                   obj_editor.putString("dolar",valor_dolar_euro);
+                   obj_editor.putString("libra",valor_libra_euro);
+                   obj_editor.commit();
+
+                    System.out.println(valor_dolar_euro+" dolares + Euros: "+valor_libra_euro);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }
+        );
+        mQueue.add(jsonObjectRequest);
+    }
+
 
 
 
