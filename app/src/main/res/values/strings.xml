@@ -1,7 +1,7 @@
 <resources>
 
     //MAIN
-    <string name="app_name">Access</string>
+    <string name="app_name">GVMES</string>
     <string name="icono">icono</string>
     <string name="nombre_app">nombre</string>
     <string name="usuario">Usuario</string>

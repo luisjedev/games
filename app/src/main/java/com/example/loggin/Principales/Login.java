@@ -56,8 +56,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         obj_editor.putBoolean("admin",false);
         obj_editor.commit();
 
-
-
         fondo = (ConstraintLayout) findViewById(R.id.fondoLogin);
         entrar = (Button) findViewById(R.id.entrar);
 
@@ -65,7 +63,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         if (comprobarNoche()){
             entrar.setBackgroundResource(R.drawable.boton_redondo);
             fondo.setBackgroundResource(R.drawable.fondonoche);
-
         }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -86,8 +83,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             }
         });
 
-
-
         email=(TextInputEditText) findViewById(R.id.email);
         contraseña=(TextInputEditText) findViewById(R.id.contraseña);
 
@@ -97,11 +92,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
 
-
         boton_google.setSize(SignInButton.SIZE_WIDE);
         boton_google.setColorScheme(SignInButton.COLOR_AUTO);
         boton_google.setVisibility(View.GONE);
-
     }
 
     @Override
