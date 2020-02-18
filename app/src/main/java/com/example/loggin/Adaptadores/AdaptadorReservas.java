@@ -1,7 +1,8 @@
-package com.example.loggin;
+package com.example.loggin.Adaptadores;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.loggin.Dialogos.DialogoEstado;
+import com.example.loggin.R;
+import com.example.loggin.Objetos.Reserva;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -78,6 +83,9 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
 
+        SharedPreferences credenciales = context.getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+        final Boolean admin= credenciales.getBoolean("admin",false);
+
         //Vamos obteniendo mail por mail
         final Reserva reserva = this.reservas.get(position);
         //Enlazamos los elementos de la vista con el modelo
@@ -103,12 +111,10 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
                 break;
             case 1:
                 estado_pedido="Preparado para el envío";
-                viewHolder.fondo_cancelar.setVisibility(View.GONE);
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.preparado);
                 break;
             case 2:
                 estado_pedido="Enviado";
-                viewHolder.fondo_cancelar.setVisibility(View.GONE);
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.enviado);
                 break;
         }
@@ -118,6 +124,26 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         viewHolder.estado.setText(estado_pedido);
 
         Glide.with(context).load(reserva.getFoto_url()).into(viewHolder.foto);
+
+
+        if (admin){
+            viewHolder.foto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
+                    DialogoEstado dia = new DialogoEstado();
+                    Bundle args = new Bundle();
+                    args.putString("id",reserva.getId());
+                    dia.setArguments(args);
+                    dia.show(activity.getSupportFragmentManager(),"estado");
+
+                }
+            });
+        }
+
+
+
+
 
         viewHolder.borrar.setOnClickListener(new View.OnClickListener() {
             @Override

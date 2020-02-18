@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Dialogos;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,48 +6,81 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.loggin.Objetos.Reserva;
+import com.example.loggin.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.SQLOutput;
+public class DialogoEstado extends DialogFragment {
 
-public class dialogoCategoria extends DialogFragment {
-
-    private EditText categoria;
     private Button cancelar, aceptar;
-    private LinearLayout fondo;
+    private LinearLayout fondo,fondo_botones;
     private DatabaseReference ref;
-    private String[] lista_categorias;
+    private RadioButton recibido, preparado, enviado;
+    private RadioGroup botones;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.dialogo_categorias, container, false);
-
-        categoria = (EditText) v.findViewById(R.id.añadir_categoria);
-        cancelar = (Button) v.findViewById(R.id.cancelar);
-        fondo = (LinearLayout) v.findViewById(R.id.fondo);
-        aceptar = (Button) v.findViewById(R.id.añadir);
+        View v = inflater.inflate(R.layout.dialogo_estado_pedido, container, false);
 
         ref = FirebaseDatabase.getInstance().getReference();
 
+        cancelar = (Button) v.findViewById(R.id.cancelar);
+        aceptar = (Button) v.findViewById(R.id.aceptar);
+        fondo = (LinearLayout) v.findViewById(R.id.fondo);
+        fondo_botones = (RadioGroup) v.findViewById(R.id.fondo_botones);
+        recibido = (RadioButton) v.findViewById(R.id.recibido);
+        preparado = (RadioButton) v.findViewById(R.id.preparado);
+        enviado = (RadioButton) v.findViewById(R.id.enviado);
+
+        final String id_categoria = getArguments().getString("id");
+
+
+        ref.child("tienda").child("reservas").child(id_categoria).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+
+                    Reserva reserva = dataSnapshot.getValue(Reserva.class);
+                    int estado = reserva.getEstado();
+
+                    switch (estado){
+                        case 0:
+                            recibido.setChecked(true);
+                            break;
+
+                        case 1:
+                            preparado.setChecked(true);
+                            break;
+                        case 2:
+                            enviado.setChecked(true);
+                            break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         comprobarNocheFragment();
-
-        cargarCategorias();
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,37 +94,23 @@ public class dialogoCategoria extends DialogFragment {
             @Override
             public void onClick(View view) {
 
-                if (categoria.getText().toString().equals("")){
-                    Toast.makeText(getContext(), "Nombra la categoría", Toast.LENGTH_SHORT).show();
+                int resultado;
+
+                if (recibido.isChecked()){
+                    resultado = 0;
+                }else if(preparado.isChecked()){
+                    resultado = 1;
                 }else{
-
-                boolean existe = false;
-
-                for(int i = 0; i < lista_categorias.length; i++){
-                    if (lista_categorias[i].equals(categoria.getText().toString())) {
-                        System.out.println(lista_categorias[i]);
-                        existe = true;
-                    }
+                    resultado= 2;
                 }
 
-                System.out.println(existe);
-
-                if (existe) {
-                    Toast.makeText(getContext(), "Ya existe la categoría", Toast.LENGTH_SHORT).show();
-                } else {
-
-
-                    ref.child("tienda").child("categorias").push().setValue(categoria.getText().toString());
-                    dismiss();
-
-                   }
-                }
-
+                ref.child("tienda").child("reservas").child(id_categoria).child("estado").setValue(resultado);
+                dismiss();
             }
         });
 
-
         return v;
+
     }
 
 
@@ -110,36 +129,4 @@ public class dialogoCategoria extends DialogFragment {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
-
-    public void cargarCategorias() {
-
-        ref.child("tienda").child("categorias").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.hasChildren()) {
-
-                    int i = 0;
-                    int tamaño = (int) dataSnapshot.getChildrenCount();
-                    lista_categorias = new String[tamaño];
-
-                    for (DataSnapshot hijo : dataSnapshot.getChildren()) {
-
-                        String heroe = hijo.getValue(String.class);
-                        lista_categorias[i] = heroe;
-                        i++;
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
-
 }

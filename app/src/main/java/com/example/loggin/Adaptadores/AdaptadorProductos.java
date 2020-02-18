@@ -1,7 +1,10 @@
-package com.example.loggin;
+package com.example.loggin.Adaptadores;
 
+import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +14,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
+import com.example.loggin.Fragments.FragmentEditarProducto;
+import com.example.loggin.Objetos.Producto;
+import com.example.loggin.R;
+import com.example.loggin.Objetos.Reserva;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +38,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -37,14 +52,17 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
     private DatabaseReference ref;
     private StorageReference sto;
 
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre,categoria,precio,descripcion;
         public ImageView foto_producto,disponible;
         public CardView fondo;
+
         public Button boton;
 
         public ViewHolder(final View itemView) {
             super(itemView);
+
             nombre = (TextView)itemView.findViewById(R.id.nombre_prod);
             categoria = (TextView)itemView.findViewById(R.id.categoria);
             precio = (TextView)itemView.findViewById(R.id.precio);
@@ -54,6 +72,7 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
             foto_producto = (ImageView)itemView.findViewById(R.id.foto_producto);
             disponible = (ImageView) itemView.findViewById(R.id.disponible);
             boton = (Button) itemView.findViewById(R.id.reservar);
+
         }
     }
 
@@ -80,8 +99,14 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
 
+        SharedPreferences monedas = context.getSharedPreferences("valor_moneda", Context.MODE_PRIVATE);
+        final String valor_dolar = monedas.getString("dolar","");
+        final String valor_libra = monedas.getString("libra","");
+
         SharedPreferences credenciales = context.getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         final String dueño_actual = credenciales.getString("id_usuario","");
+        final Boolean admin= credenciales.getBoolean("admin",false);
+        final int tipo_moneda= credenciales.getInt("moneda",0);
         final String nombre_cliente = credenciales.getString("nombre_usuario","");
 
         //Vamos obteniendo mail por mail
@@ -102,9 +127,77 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         viewHolder.nombre.setText(producto.getNombre());
         viewHolder.categoria.setText(producto.getCategoria());
         viewHolder.descripcion.setText(producto.getDescripcion());
-        viewHolder.precio.setText(producto.getPrecio()+" €");
+
+        String precio_string_producto = producto.getPrecio();
+        double precio_number_producto = Double.parseDouble(precio_string_producto);
+        double precio_final=0;
+        char moneda='a';
+
+
+        switch (tipo_moneda){
+
+            case 0:
+                precio_final = precio_number_producto;
+                moneda='€';
+                break;
+            case 1:
+                System.out.println(valor_dolar);
+                precio_final = precio_number_producto*
+                        (Double.parseDouble(valor_dolar));
+                moneda='$';
+                break;
+            case 2:
+                System.out.println(valor_libra);
+                precio_final = precio_number_producto*(Double.parseDouble(valor_libra));
+                moneda='£';
+                break;
+
+        }
+
+        DecimalFormat dosDecimales= new DecimalFormat("#.00");
+        viewHolder.precio.setText(""+dosDecimales.format(precio_final)+" "+moneda);
 
         Glide.with(context).load(producto.getFoto_url()).into(viewHolder.foto_producto);
+
+
+        viewHolder.foto_producto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentEditarProducto frag = new FragmentEditarProducto();
+
+                //ARREGLAR
+//              frag.newInstance(producto.getId(),"id");
+
+                if (admin){
+
+                    Bundle args = new Bundle();
+                    args.putString("param1",producto.getId());
+                    frag.setArguments(args);
+                    AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.fragments_admin, frag)
+                            .addToBackStack(null)
+                            .commit();
+                }else{
+
+                    Bundle args = new Bundle();
+                    args.putString("param1",producto.getId());
+                    frag.setArguments(args);
+                    AppCompatActivity activity= (AppCompatActivity) viewHolder.itemView.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.frame_fragments, frag)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+
+            }
+        });
 
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,22 +227,11 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         });
     }
 
-
-//        String nombre = user.getNombre();
-//        String letra = nombre.substring(0,1);
-
-//        viewHolder.button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                productos.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(0, productos.size());
-//            }
-//        });
-
     @Override
     public int getItemCount() {
         return this.productos.size();
     }
+
+
 
 }

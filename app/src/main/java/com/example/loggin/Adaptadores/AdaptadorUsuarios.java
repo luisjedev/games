@@ -1,27 +1,21 @@
-package com.example.loggin;
+package com.example.loggin.Adaptadores;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.loggin.Objetos.Cliente;
+import com.example.loggin.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,8 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.ViewHolder> {
@@ -58,7 +50,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Vi
             moneda = (TextView) itemView.findViewById(R.id.moneda_usuario);
 
             borrar = (ImageButton) itemView.findViewById(R.id.borrar_usuario);
-            foto = (ImageView) itemView.findViewById(R.id.foto_usuario);
+            foto = (ImageView) itemView.findViewById(R.id.imagen_usuario);
 
 
         }
@@ -111,7 +103,10 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Vi
         viewHolder.moneda.setText(valor_moneda);
 
                 //PROBLEMA DE LA OSTIA
-//        Glide.with(context).load(cliente.getUrl_foto()).into(viewHolder.foto);
+        System.out.println(cliente.getUrl_foto());
+        Glide.with(context)
+                .load(cliente.getUrl_foto())
+                .into(viewHolder.foto);
 
         viewHolder.borrar.setOnClickListener(new View.OnClickListener() {
             @Override

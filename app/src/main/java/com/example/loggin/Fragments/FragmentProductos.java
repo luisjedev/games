@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,12 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import com.example.loggin.Adaptadores.AdaptadorProductos;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.ProductGridItemDecoration;
+import com.example.loggin.Objetos.Producto;
+import com.example.loggin.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,6 +79,9 @@ public class FragmentProductos extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_fragment_productos, container, false);
 
+        SharedPreferences credenciales = getActivity().getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+        final Boolean admin= credenciales.getBoolean("admin",false);
+
         fondo=(FrameLayout) v.findViewById(R.id.fondofrag);
         lista_productos = (RecyclerView) v.findViewById(R.id.lista_productos);
         items=new ArrayList<>();
@@ -88,8 +96,13 @@ public class FragmentProductos extends Fragment {
                 for(DataSnapshot hijo:dataSnapshot.getChildren()) {
                     final Producto producto = hijo.getValue(Producto.class);
                     producto.setId(hijo.getKey());
-                    if (producto.isDisponible()){
+
+                    if (admin){
                         items.add(producto);
+                    }else{
+                        if (producto.isDisponible()){
+                            items.add(producto);
+                         }
                     }
                 }
                 for(final Producto producto:items){
@@ -126,7 +139,7 @@ public class FragmentProductos extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(String TAG, Object data) {
         if (mListener != null) {
             mListener.onFragmentMessage(TAG,data);

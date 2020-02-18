@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Principales;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,14 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 
+import com.example.loggin.Fragments.FragmentAgregarProductos;
+import com.example.loggin.Fragments.FragmentMapa;
+import com.example.loggin.Fragments.FragmentProductos;
+import com.example.loggin.Fragments.FragmentReservas;
+import com.example.loggin.Fragments.FragmentUsuarios;
+import com.example.loggin.Objetos.Tienda;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +38,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
     private BottomNavigationView menu_admin;
     private int posicionAnimacion;
     private MaterialToolbar topbar;
+    private DatabaseReference ref;
 
 
 
@@ -38,7 +47,8 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu__administrador);
 
-
+        ref = FirebaseDatabase.getInstance().getReference();
+        guardarTienda();
 
         fondo = (ConstraintLayout) findViewById(R.id.fondo);
         fragments = (FrameLayout) findViewById(R.id.fragments_admin);
@@ -52,7 +62,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
 
 
         posicionAnimacion = 0;
-        AgregarProductos frag = new AgregarProductos();
+        FragmentAgregarProductos frag = new FragmentAgregarProductos();
         frag.setArguments(getIntent().getExtras());
         getSupportFragmentManager()
                 .beginTransaction()
@@ -83,7 +93,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         break;
 
                     case R.id.salir:
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent i = new Intent(getApplicationContext(), Login.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
@@ -110,7 +120,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         if (posicionAnimacion!=0) {
 
                             posicionAnimacion = 0;
-                            AgregarProductos frag = new AgregarProductos();
+                            FragmentAgregarProductos frag = new FragmentAgregarProductos();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -181,7 +191,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         if (posicionAnimacion<3){
 
                             posicionAnimacion = 3;
-                            EditarMapa frag = new EditarMapa();
+                            FragmentMapa frag = new FragmentMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -193,7 +203,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         }else if (posicionAnimacion>3){
 
                             posicionAnimacion = 3;
-                            EditarMapa frag = new EditarMapa();
+                            FragmentMapa frag = new FragmentMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -207,6 +217,8 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
 
                     case R.id.usuarios:
 
+                        if (posicionAnimacion<4){
+
                             posicionAnimacion = 4;
                             FragmentUsuarios frag = new FragmentUsuarios();
                             frag.setArguments(getIntent().getExtras());
@@ -216,9 +228,8 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                                     .replace(R.id.fragments_admin, frag)
                                     .addToBackStack(null)
                                     .commit();
-
+                           }
                         break;
-
                     default:
                 }
                 return true;
@@ -248,6 +259,28 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         if (TAG.equals("opcion")){
 
         }
+    }
+
+    public void guardarTienda(){
+
+        ref.child("tienda").child("datos").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Tienda tienda = dataSnapshot.getValue(Tienda.class);
+
+                SharedPreferences credenciales = getSharedPreferences("tienda", Context.MODE_PRIVATE);
+                SharedPreferences.Editor obj_editor = credenciales.edit();
+
+                obj_editor.putString("latitud",""+tienda.getLatitud());
+                obj_editor.putString("longitud",""+tienda.getLongitud());
+                obj_editor.commit();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

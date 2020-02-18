@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Principales;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.loggin.Objetos.Cliente;
+import com.example.loggin.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -30,9 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.sql.SQLOutput;
-
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private TextInputEditText email,contraseña;
     private DatabaseReference ref;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        
         SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         final SharedPreferences.Editor obj_editor = credenciales.edit();
 
@@ -91,8 +92,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         contraseña=(TextInputEditText) findViewById(R.id.contraseña);
 
         email.setText("luisjedev@gmail.com");
-        contraseña.setText("EAG2019");
-
+        contraseña.setText("admin");
 
         ref = FirebaseDatabase.getInstance().getReference();
         sto = FirebaseStorage.getInstance().getReference();
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     if (resultado.equals(valor_contraseña)){
                         obj_editor.putBoolean("admin",true);
                         obj_editor.commit();
-                        Intent i = new Intent(MainActivity.this,MenuAdministrador.class);
+                        Intent i = new Intent(Login.this,MenuAdministrador.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         Toast.makeText(getApplicationContext(), "Bienvenido señor", Toast.LENGTH_LONG).show();
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                                             if (contraseña_verdadera.equals(valor_contraseña)){
 
-                                                Intent i = new Intent(MainActivity.this,MenuGlobal.class);
+                                                Intent i = new Intent(Login.this,MenuGlobal.class);
 
                                                 obj_editor.putBoolean("google",false);
                                                 obj_editor.commit();
@@ -211,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                     }
                                 });
 
-
                     }
                 }
 
@@ -228,9 +227,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-
-
-
     }
     public void guardarPreferencias(String id,int moneda,String nombre){
         SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
@@ -240,13 +236,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         obj_editor.putInt("moneda",moneda);
         obj_editor.putBoolean("admin",false);
         obj_editor.commit();
-
     }
 
     public boolean comprobarNoche(){
-
         boolean res;
-
         SharedPreferences modonoche = getSharedPreferences("noche", Context.MODE_PRIVATE);
         Boolean modo_actual= modonoche.getBoolean("noche",false);
 
@@ -257,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             res=false;
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
         return res;
     }
 

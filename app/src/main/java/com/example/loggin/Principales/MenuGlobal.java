@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Principales;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,8 +10,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.loggin.Fragments.FragmentMapa;
+import com.example.loggin.Fragments.FragmentProductos;
+import com.example.loggin.Fragments.FragmentReservas;
+import com.example.loggin.Objetos.Tienda;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -20,13 +33,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MenuGlobal extends AppCompatActivity implements OnFragmentInteractionListener{
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MenuGlobal extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private BottomNavigationView menuBottom;
     private MaterialToolbar topbar;
     private int posicionAnimacion;
     private FrameLayout fondo;
     private DatabaseReference ref;
+    private String[] lista_categorias;
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +52,11 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
         setContentView(R.layout.activity_menu_global);
 
         ref = FirebaseDatabase.getInstance().getReference();
+
+        mQueue = Volley.newRequestQueue(this);
+
+        cargarCategorias();
+        leerValoresMonedas();
 
         guardarTienda();
 
@@ -85,7 +108,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         break;
 
                     case R.id.salir:
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent i = new Intent(getApplicationContext(), Login.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
@@ -211,7 +234,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         if (posicionAnimacion<4){
 
                             posicionAnimacion = 4;
-                            EditarMapa frag = new EditarMapa();
+                            FragmentMapa frag = new FragmentMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -299,6 +322,79 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
             }
         });
     }
+
+
+    public void cargarCategorias(){
+
+        ref.child("tienda").child("categorias").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChildren()){
+
+                    int i=0;
+                    int tamaño = (int) dataSnapshot.getChildrenCount();
+                    lista_categorias = new String[tamaño];
+
+                    for(DataSnapshot hijo:dataSnapshot.getChildren()) {
+
+                        String heroe = hijo.getValue(String.class);
+                        lista_categorias[i] = heroe;
+                        i++;
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    public void leerValoresMonedas(){
+        String url_monedas = "https://api.exchangeratesapi.io/latest?symbols=USD,GBP";
+
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, url_monedas, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    SharedPreferences monedas = getSharedPreferences("valor_moneda", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor obj_editor = monedas.edit();
+
+                    JSONObject respuestaAPI=response.getJSONObject("rates");
+
+                   String valor_dolar_euro=respuestaAPI.getString("USD");
+                   String valor_libra_euro= respuestaAPI.getString("GBP");
+
+                   obj_editor.putString("dolar",valor_dolar_euro);
+                   obj_editor.putString("libra",valor_libra_euro);
+                   obj_editor.commit();
+
+                    System.out.println(valor_dolar_euro+" dolares + Euros: "+valor_libra_euro);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }
+        );
+        mQueue.add(jsonObjectRequest);
+    }
+
 
 
 

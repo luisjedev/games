@@ -1,4 +1,4 @@
-package com.example.loggin;
+package com.example.loggin.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,8 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
+import com.example.loggin.Adaptadores.AdaptadorUsuarios;
+import com.example.loggin.Objetos.Cliente;
+import com.example.loggin.OnFragmentInteractionListener;
+import com.example.loggin.ProductGridItemDecoration;
+import com.example.loggin.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -99,6 +103,7 @@ public class FragmentUsuarios extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     cliente.setUrl_foto(uri);
+                                    System.out.println(uri);
                                     adapter.notifyDataSetChanged();
                                 }
                             });
