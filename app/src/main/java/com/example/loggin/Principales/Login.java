@@ -48,6 +48,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        
         SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         final SharedPreferences.Editor obj_editor = credenciales.edit();
 
