@@ -12,6 +12,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
@@ -54,6 +55,8 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
     private MaterialToolbar topbar;
     private int posicionAnimacion;
     private FrameLayout fondo;
+    private String ENVIADO="Pedido enviado";
+    private String PREPARADO="Pedido preparado";
     private DatabaseReference ref;
     private String[] lista_categorias;
     private RequestQueue mQueue;
@@ -95,10 +98,11 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
                 if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.PREPARADO && !reserva.isEstado_notificado()) {
                     ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
-                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), reserva.getNombre_cliente(), FragmentReservas.class);
+
+                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), PREPARADO, FragmentReservas.class,0);
                 } else if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.ENVIADO && !reserva.isEstado_notificado()) {
                     ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
-                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), reserva.getNombre_cliente(), FragmentReservas.class);
+                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), ENVIADO, FragmentReservas.class,1);
 
 
                 }
@@ -470,7 +474,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
     }
 
 
-    public void notificar(String id_pedido,String descripcion,String estado,Class destino){
+    public void notificar(String id_pedido, String descripcion, String estado, Class destino, int foto){
         //Creamos notificación
         //Creamos un metodo con 3 parametros, mensaje, texto y activity destino
         Notification.Builder mBuilder = new Notification.Builder(getApplicationContext());
@@ -486,8 +490,16 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
         mBuilder.setContentText(estado);
 
         //Añadimos imagen a la notificación, pero tenemos que convertirla a Bitmap
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        mBuilder.setLargeIcon(bmp);
+
+        if (foto==0){
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icono_preparado);
+            mBuilder.setLargeIcon(bmp);
+        }else{
+
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icono_enviado);
+            mBuilder.setLargeIcon(bmp);
+        }
+
 
         //Para hacer desaparecer la notificación cuando se pulse sobre esta y se abra la Activity de destino
         mBuilder.setAutoCancel(true);
