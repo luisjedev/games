@@ -524,7 +524,9 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
         mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
 
         //Para barra de progreso (true en movimiento y false con el estado en que se encuentra el progreso)
-        mBuilder.setProgress(100,50,true);
+//        mBuilder.setProgress(100,50,true);
+
+
 
 
         //Abrimos una activity al pulsar sobra la notificación

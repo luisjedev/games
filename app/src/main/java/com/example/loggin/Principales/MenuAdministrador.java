@@ -105,19 +105,6 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         guardarTienda();
 
         fondo = (ConstraintLayout) findViewById(R.id.fondo);
@@ -385,7 +372,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
 
         //Para barra de progreso (true en movimiento y false con el estado en que se encuentra el progreso)
-        mBuilder.setProgress(100,50,true);
+//        mBuilder.setProgress(100,50,true);
 
 
         //Abrimos una activity al pulsar sobra la notificación
