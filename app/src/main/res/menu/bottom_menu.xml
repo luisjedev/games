@@ -18,6 +18,7 @@
 
         <item android:id="@+id/favoritos"
             android:title="@string/favoritos"
+            android:iconTint="@color/colorAccent"
             android:icon="@drawable/favoritos">
         </item>
 

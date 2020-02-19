@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import android.content.Context;
@@ -15,6 +17,8 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 
+import com.example.loggin.Dialogos.DialogoAdmin;
+import com.example.loggin.Dialogos.DialogoCategoria;
 import com.example.loggin.Fragments.FragmentAgregarProductos;
 import com.example.loggin.Fragments.FragmentMapa;
 import com.example.loggin.Fragments.FragmentProductos;
@@ -99,9 +103,10 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         break;
 
                     case R.id.configuracion:
-//                        Intent intent = new Intent(getApplicationContext(), MenuAdministrador.class);
-//                        startActivity(intent);
-//                        overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);
+
+                        DialogoAdmin dia = new DialogoAdmin();
+                        dia.show(getSupportFragmentManager(),"configuracion");
+
                         break;
 
                     default:
