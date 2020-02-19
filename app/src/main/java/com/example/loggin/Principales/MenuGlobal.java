@@ -150,7 +150,6 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
 
         String menuFragment = getIntent().getStringExtra("menuFragment");
-
         if (menuFragment!=null && menuFragment.equals("FragmentReservas")){
             posicionAnimacion = 1;
             FragmentReservas frag = new FragmentReservas();
