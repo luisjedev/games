@@ -66,7 +66,6 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         mNotificationManager=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         //notificaciones
-
         ref.child("tienda").child("reservas").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -82,12 +81,12 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
                         ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
                         notificar(reserva.getId_producto(),reserva.getNombre_producto(),reserva.getNombre_cliente(),FragmentReservas.class);
                     }
-
                 }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override

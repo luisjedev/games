@@ -46,6 +46,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
+
 public class MenuGlobal extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private BottomNavigationView menuBottom;
@@ -75,15 +77,31 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+                String dueño_actual = credenciales.getString("id_usuario", "");
+
                 Reserva reserva = dataSnapshot.getValue(Reserva.class);
                 String id_reserva = dataSnapshot.getKey();
                 String id_cliente_reserva = reserva.getId_cliente();
+                System.out.println("id reserva: " + id_reserva);
+                System.out.println("id cliente: " + id_cliente_reserva);
+                System.out.println("dueño actual: " + dueño_actual);
 
+                if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.PREPARADO && !reserva.isEstado_notificado()) {
+                    ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
+                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), reserva.getNombre_cliente(), FragmentReservas.class);
+                } else if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.ENVIADO && !reserva.isEstado_notificado()) {
+                    ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
+                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), reserva.getNombre_cliente(), FragmentReservas.class);
+
+
+                }
             }
 
             @Override

@@ -49,10 +49,10 @@ public class DialogoEstado extends DialogFragment {
         preparado = (RadioButton) v.findViewById(R.id.preparado);
         enviado = (RadioButton) v.findViewById(R.id.enviado);
 
-        final String id_categoria = getArguments().getString("id");
+        final String id_reserva = getArguments().getString("id");
 
 
-        ref.child("tienda").child("reservas").child(id_categoria).addValueEventListener(new ValueEventListener() {
+        ref.child("tienda").child("reservas").child(id_reserva).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
@@ -104,7 +104,8 @@ public class DialogoEstado extends DialogFragment {
                     resultado= 2;
                 }
 
-                ref.child("tienda").child("reservas").child(id_categoria).child("estado").setValue(resultado);
+                ref.child("tienda").child("reservas").child(id_reserva).child("estado").setValue(resultado);
+                ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(false);
                 dismiss();
             }
         });
