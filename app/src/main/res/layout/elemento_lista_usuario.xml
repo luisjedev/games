@@ -23,7 +23,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_weight="1.8"
-            app:srcCompat="@drawable/seleccionarfoto" />
+            app:srcCompat="@drawable/seleccionarfoto"
+            tools:srcCompat="@drawable/seleccionarfoto" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,7 +52,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/nombre"
-                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -60,14 +63,16 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:text="@string/contraseña"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/moneda_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/moneda"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <ImageButton
