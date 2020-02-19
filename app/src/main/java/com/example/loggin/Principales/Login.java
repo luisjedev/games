@@ -156,6 +156,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
                     if (resultado.equals(valor_contraseña)){
                         obj_editor.putBoolean("admin",true);
+                        obj_editor.putString("id_usuario","");
                         obj_editor.commit();
                         Intent i = new Intent(Login.this,MenuAdministrador.class);
                         startActivity(i);
