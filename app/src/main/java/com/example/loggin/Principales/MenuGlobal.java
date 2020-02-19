@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -69,7 +70,6 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
         ref = FirebaseDatabase.getInstance().getReference();
 
-
         //notificaciones
 
         ref.child("tienda").child("reservas").addChildEventListener(new ChildEventListener() {
@@ -95,10 +95,10 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                 if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.PREPARADO && !reserva.isEstado_notificado()) {
                     ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
 
-                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), PREPARADO, FragmentReservas.class,0);
+                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), PREPARADO, MenuGlobal.class,0);
                 } else if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.ENVIADO && !reserva.isEstado_notificado()) {
                     ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
-                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), ENVIADO, FragmentReservas.class,1);
+                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), ENVIADO, MenuGlobal.class,1);
 
 
                 }
@@ -148,15 +148,32 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
             topbar.inflateMenu(R.menu.top_menu);
         }
 
-        posicionAnimacion = 0;
-        FragmentProductos frag = new FragmentProductos();
-        frag.setArguments(getIntent().getExtras());
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                .replace(R.id.frame_fragments, frag)
-                .addToBackStack(null)
-                .commit();
+
+        String menuFragment = getIntent().getStringExtra("menuFragment");
+
+        if (menuFragment!=null && menuFragment.equals("FragmentReservas")){
+            posicionAnimacion = 1;
+            FragmentReservas frag = new FragmentReservas();
+            frag.setArguments(getIntent().getExtras());
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.frame_fragments, frag)
+                    .addToBackStack(null)
+                    .commit();
+        }else {
+
+            posicionAnimacion = 0;
+            FragmentProductos frag = new FragmentProductos();
+            frag.setArguments(getIntent().getExtras());
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                    .replace(R.id.frame_fragments, frag)
+                    .addToBackStack(null)
+                    .commit();
+
+        }
 
         comprobarNoche();
 
@@ -514,6 +531,9 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
         //Abrimos una activity al pulsar sobra la notificación
         //Creamos Intent
         Intent notIntent = new Intent(getApplicationContext(), destino);
+        notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        notIntent.putExtra("menuFragment", "FragmentReservas");
+
         //Creamos PendingIntent al cual le pasamos nuestro Intent
         PendingIntent contIntent = PendingIntent.getActivity(getApplicationContext()  , 0,notIntent,0);
         //Añadimos nuestra PendingIntent a la notificación
@@ -521,10 +541,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
         //Lanzamos la notificación
 
         mNotificationManager.notify(id_pedido.hashCode(), mBuilder.build());
+
     }
-
-
-
-
 
 }
