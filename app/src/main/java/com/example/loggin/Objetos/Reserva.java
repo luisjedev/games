@@ -4,6 +4,10 @@ import android.net.Uri;
 
 public class Reserva {
 
+    public static final int RECIBIDO=0;
+    public static final int PREPARADO=1;
+    public static final int ENVIADO=2;
+
     private String id,nombre_producto,nombre_cliente,id_producto,id_cliente,fecha;
 
     private int estado;
