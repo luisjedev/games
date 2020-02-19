@@ -79,7 +79,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
 
                     if (reserva.getEstado()==Reserva.RECIBIDO && !reserva.isEstado_notificado()){
                         ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
-                        notificar(reserva.getId_producto(),reserva.getNombre_producto(),reserva.getNombre_cliente(),FragmentReservas.class);
+                        notificar(reserva.getId_producto(),reserva.getNombre_producto(),"Pedido recibido",FragmentReservas.class);
                     }
                 }
             }
@@ -371,7 +371,7 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         mBuilder.setContentText(estado);
 
         //Añadimos imagen a la notificación, pero tenemos que convertirla a Bitmap
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icono_recibido);
         mBuilder.setLargeIcon(bmp);
 
         //Para hacer desaparecer la notificación cuando se pulse sobre esta y se abra la Activity de destino
