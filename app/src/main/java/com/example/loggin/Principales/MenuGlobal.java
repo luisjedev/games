@@ -290,12 +290,13 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         }
 
                         break;
-                    case R.id.buscar:
+
+                    case R.id.tienda:
 
                         if (posicionAnimacion<2){
 
                             posicionAnimacion = 2;
-                            FragmentProductos frag = new FragmentProductos();
+                            FragmentMapa frag = new FragmentMapa();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -307,63 +308,6 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                         }else if (posicionAnimacion>2){
 
                             posicionAnimacion = 2;
-                            FragmentProductos frag = new FragmentProductos();
-                            frag.setArguments(getIntent().getExtras());
-                            getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                                    .replace(R.id.frame_fragments, frag)
-                                    .addToBackStack(null)
-                                    .commit();
-                        }
-
-                        break;
-                    case R.id.favoritos:
-
-                        if (posicionAnimacion<3){
-
-                            posicionAnimacion = 3;
-                            FragmentProductos frag = new FragmentProductos();
-                            frag.setArguments(getIntent().getExtras());
-                            getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                                    .replace(R.id.frame_fragments, frag)
-                                    .addToBackStack(null)
-                                    .commit();
-
-                        }else if (posicionAnimacion>3){
-
-                            posicionAnimacion = 3;
-                            FragmentProductos frag = new FragmentProductos();
-                            frag.setArguments(getIntent().getExtras());
-                            getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                                    .replace(R.id.frame_fragments, frag)
-                                    .addToBackStack(null)
-                                    .commit();
-                        }
-
-                        break;
-
-                    case R.id.tienda:
-
-                        if (posicionAnimacion<4){
-
-                            posicionAnimacion = 4;
-                            FragmentMapa frag = new FragmentMapa();
-                            frag.setArguments(getIntent().getExtras());
-                            getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                                    .replace(R.id.frame_fragments, frag)
-                                    .addToBackStack(null)
-                                    .commit();
-
-                        }else if (posicionAnimacion>4){
-
-                            posicionAnimacion = 4;
                             FragmentProductos frag = new FragmentProductos();
                             frag.setArguments(getIntent().getExtras());
                             getSupportFragmentManager()
