@@ -52,6 +52,8 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
     private BottomNavigationView menu_admin;
     private int posicionAnimacion;
     private MaterialToolbar topbar;
+    private String PREPARADO="Pedido preparado";
+    private String ENVIADO="Pedido enviado";
     private DatabaseReference ref;
     private NotificationManager mNotificationManager;
 
@@ -71,15 +73,15 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Reserva reserva = dataSnapshot.getValue(Reserva.class);
                 String id_reserva = dataSnapshot.getKey();
-
                 SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
                 final Boolean admin= credenciales.getBoolean("admin",false);
+
 
                 if(admin){
 
                     if (reserva.getEstado()==Reserva.RECIBIDO && !reserva.isEstado_notificado()){
                         ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
-                        notificar(reserva.getId_producto(),reserva.getNombre_producto(),"Pedido recibido",FragmentReservas.class);
+                        notificar(reserva.getId_producto(),reserva.getNombre_producto(),"Pedido recibido",MenuAdministrador.class);
                     }
                 }
             }
@@ -357,9 +359,12 @@ public class MenuAdministrador extends AppCompatActivity implements OnFragmentIn
         //Añadimos texto a la notificación
         mBuilder.setContentText(estado);
 
-        //Añadimos imagen a la notificación, pero tenemos que convertirla a Bitmap
+
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icono_recibido);
         mBuilder.setLargeIcon(bmp);
+
+        //Añadimos imagen a la notificación, pero tenemos que convertirla a Bitmap
+
 
         //Para hacer desaparecer la notificación cuando se pulse sobre esta y se abra la Activity de destino
         mBuilder.setAutoCancel(true);

@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -64,6 +65,8 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_global);
 
+        SharedPreferences id_usuario = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+        String dueño_actual = id_usuario.getString("id_usuario", "");
 
         mNotificationManager=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -75,6 +78,30 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
         ref.child("tienda").child("reservas").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                //PREGUNTAR A DANI POR QUE ESTA MIERDA PARA QUE FUNCIONE EN UN MISMO MOVIL ADMIN/USER
+
+                SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
+                String dueño_actual = credenciales.getString("id_usuario", "");
+
+                Reserva reserva = dataSnapshot.getValue(Reserva.class);
+                String id_reserva = dataSnapshot.getKey();
+                String id_cliente_reserva = reserva.getId_cliente();
+                System.out.println("id reserva: " + id_reserva);
+                System.out.println("id cliente: " + id_cliente_reserva);
+                System.out.println("dueño actual: " + dueño_actual);
+
+                Toast.makeText(MenuGlobal.this, "dueño actual: "+dueño_actual+"id_c_res: "+id_cliente_reserva, Toast.LENGTH_SHORT).show();
+
+                if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.PREPARADO && !reserva.isEstado_notificado()) {
+                    ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
+                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), PREPARADO, MenuGlobal.class,0);
+
+                } else if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.ENVIADO && !reserva.isEstado_notificado()) {
+                    ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
+                    notificar(reserva.getId_producto(), reserva.getNombre_producto(), ENVIADO, MenuGlobal.class,1);
+
+                }
 
 
             }
@@ -92,14 +119,15 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                 System.out.println("id cliente: " + id_cliente_reserva);
                 System.out.println("dueño actual: " + dueño_actual);
 
+                Toast.makeText(MenuGlobal.this, "dueño actual: "+dueño_actual+"id_c_res: "+id_cliente_reserva, Toast.LENGTH_SHORT).show();
+
                 if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.PREPARADO && !reserva.isEstado_notificado()) {
                     ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
-
                     notificar(reserva.getId_producto(), reserva.getNombre_producto(), PREPARADO, MenuGlobal.class,0);
+
                 } else if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.ENVIADO && !reserva.isEstado_notificado()) {
                     ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
                     notificar(reserva.getId_producto(), reserva.getNombre_producto(), ENVIADO, MenuGlobal.class,1);
-
 
                 }
             }

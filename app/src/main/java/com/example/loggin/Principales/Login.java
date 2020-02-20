@@ -154,6 +154,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String resultado= dataSnapshot.getValue(String.class);
 
+
                     if (resultado.equals(valor_contraseña)){
                         obj_editor.putBoolean("admin",true);
                         obj_editor.putString("id_usuario","");
