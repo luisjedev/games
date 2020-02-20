@@ -91,7 +91,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                 System.out.println("id cliente: " + id_cliente_reserva);
                 System.out.println("dueño actual: " + dueño_actual);
 
-                Toast.makeText(MenuGlobal.this, "dueño actual: "+dueño_actual+"id_c_res: "+id_cliente_reserva, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MenuGlobal.this, "dueño actual: "+dueño_actual+"id_c_res: "+id_cliente_reserva, Toast.LENGTH_SHORT).show();
 
                 if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.PREPARADO && !reserva.isEstado_notificado()) {
                     ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);
@@ -119,7 +119,7 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
                 System.out.println("id cliente: " + id_cliente_reserva);
                 System.out.println("dueño actual: " + dueño_actual);
 
-                Toast.makeText(MenuGlobal.this, "dueño actual: "+dueño_actual+"id_c_res: "+id_cliente_reserva, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MenuGlobal.this, "dueño actual: "+dueño_actual+"id_c_res: "+id_cliente_reserva, Toast.LENGTH_SHORT).show();
 
                 if (id_cliente_reserva.equals(dueño_actual) && reserva.getEstado() == Reserva.PREPARADO && !reserva.isEstado_notificado()) {
                     ref.child("tienda").child("reservas").child(id_reserva).child("estado_notificado").setValue(true);

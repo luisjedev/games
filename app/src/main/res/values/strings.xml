@@ -74,6 +74,8 @@
     <string name="enviado">Pedido enviado</string>
     <string name="aceptar">Aceptar</string>
     <string name="nueva_contraseña">Nueva contraseña</string>
+    <string name="precio_minimo">Precio mínimo</string>
+    <string name="precio_maximo">Precio máximo</string>
 
 
 </resources>
