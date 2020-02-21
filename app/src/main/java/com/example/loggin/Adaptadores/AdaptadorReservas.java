@@ -106,11 +106,11 @@ public class AdaptadorReservas extends RecyclerView.Adapter<AdaptadorReservas.Vi
         switch (reserva.getEstado()){
 
             case 0:
-                estado_pedido="Pedido recibido";
+                estado_pedido="Recibido";
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.recibido);
                 break;
             case 1:
-                estado_pedido="Preparado para el envío";
+                estado_pedido="Preparado";
                 viewHolder.fondo_estado.setBackgroundResource(R.drawable.preparado);
                 break;
             case 2:
