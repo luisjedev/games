@@ -192,6 +192,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                                                 startActivity(i);
                                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                                 Toast.makeText(getApplicationContext(), "Bienvenido", Toast.LENGTH_LONG).show();
+
                                             }else{
                                                 contraseña.setError("Usuario o Contraseña no coinciden");
                                             }
