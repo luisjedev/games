@@ -37,6 +37,7 @@ import com.example.loggin.OnFragmentInteractionListener;
 import com.example.loggin.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -166,6 +167,8 @@ public class MenuGlobal extends AppCompatActivity implements OnFragmentInteracti
 
         topbar = (MaterialToolbar) findViewById(R.id.materialToolbar);
         menuBottom =(BottomNavigationView)findViewById(R.id.bottom_navigation);
+
+        menuBottom.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_SELECTED);
 
         SharedPreferences credenciales = getSharedPreferences("datos_usuario", Context.MODE_PRIVATE);
         Boolean admin= credenciales.getBoolean("admin",false);

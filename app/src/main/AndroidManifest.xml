@@ -26,7 +26,8 @@
         <activity android:name=".Principales.MenuGoogle" />
         <activity android:name=".Principales.Preferencias" />
         <activity android:name=".Principales.Registro" />
-        <activity android:name=".Principales.Login">
+        <activity android:name=".Principales.Login"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
